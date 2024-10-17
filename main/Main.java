@@ -1,6 +1,7 @@
 package main;
 
-import view.JTabbedPane;
+import view.AddProduct;
+import view.ProductFrame_02;
 
 public class Main {
 
@@ -25,14 +26,17 @@ public class Main {
 		
 //		new JTable_test();
 		
-		new JTabbedPane();
+//		new JTabbedPane();
 		
+//		new JTabbar_test();
 		
+		new ProductFrame_02();
 		
+//		new JTable_test_02();
 		
+//		new JCombobox();
 		
-		
-		
+//		new AddProduct();
 		
 		
 	}

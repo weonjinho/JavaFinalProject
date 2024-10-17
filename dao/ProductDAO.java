@@ -2,7 +2,10 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import dto.ProductDTO;
 
 public class ProductDAO {
 	private Connection conn = null;
@@ -31,4 +34,37 @@ public class ProductDAO {
 		}
 		return false;
 	}
+	
+	public void insert(ProductDTO pdto) {
+		if(conn()) {
+			try {
+				String sql = "insert into productmge values('제품번호5', ?, ?, ?, ?, sysdate)";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, pdto.getPname());
+				pstmt.setInt(2, pdto.getPrice());
+				pstmt.setInt(3, pdto.getStock());
+				pstmt.setString(4, pdto.getMaker());
+				int result = pstmt.executeUpdate();
+				if(result > 0) {
+					conn.commit();
+				}else {
+					conn.rollback();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				try {
+					if(conn != null) {
+						conn.close();
+					}
+				}catch(Exception e2) {
+					
+				}
+			}
+		}else {
+			System.out.println("Connection 확득 실패");
+		}
+	}
+	
 }

@@ -37,5 +37,6 @@ public class JTable_test extends JFrame{
 		this.setTitle("학생명단");
 		this.setVisible(true);
 //		this.pack();
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 }

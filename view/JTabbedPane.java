@@ -11,8 +11,8 @@ public class JTabbedPane extends JFrame{
 		JTabbedPane t = new JTabbedPane();
 		JPanel p1 = new JPanel();
 		
-		t.add("제품동록");
-		t.add("제품조회/변경");
+//		t.add("제품동록");
+//		t.add("제품조회/변경");
 		
 		this.add(t);
 		
