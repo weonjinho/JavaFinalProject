@@ -92,16 +92,32 @@ public class LoginFrame extends JFrame implements ActionListener{
 					inputPass2 = inputPass.getText();
 					//입력받은 "사원번호"로 검색후 관련 정보 가져오기.
 					employee = empdao.selectOne(inputId2);
-					if(inputPass2.equals(employee.getPassword())) {
-						System.out.println("로그인 성공");
-						System.out.println("검색 : " + employee.toString());
-						System.out.println("여기서 제품 화면으로 이동됩니다.");
-						this.dispose();
+					if(employee != null) {
+						if(inputPass2.equals(employee.getPassword())) {
+							System.out.println("로그인 성공");
+							if(inputId2.equals("admin")) {
+								System.out.println("*****");
+								System.out.println("관리자 입니다.");
+								System.out.println("현재 관리자이름은 : " + employee.getName() + "입니다.");
+								new ProductFrame_02();
+							}else {
+								System.out.println("====== " + employee.getDeptName() + "부 " + employee.getName() + " 사원입니다." + " ======");
+								new SelectProduct_employee();
+							}
+							this.dispose();
+							break;
+						}else {
+							System.out.println("로그인 실패");
+							if(!inputPass2.equals(employee.getPassword())) {
+								System.out.println("비번 오류");
+							}
+							flag = false;
+						}
+					}else if(employee == null) {
+						System.out.println("존재하지 않은 아이디입니다.");
 						break;
-					}else {
-						System.out.println("로그인 실패");
-						flag = false;
 					}
+					
 				}
 			} catch (Exception e2) {
 				// TODO: handle exception

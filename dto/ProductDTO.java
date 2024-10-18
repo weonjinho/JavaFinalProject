@@ -2,6 +2,13 @@ package dto;
 
 public class ProductDTO {
 	private String pnum = null;
+	private String category = null;
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	private String pname = null;
 	private int price = 0;
 	private int stock = 0;
@@ -46,9 +53,9 @@ public class ProductDTO {
 	}
 	@Override
 	public String toString() {
-		System.out.println("22222");
-		return "ProductDTO [pnum=" + pnum + ", pname=" + pname + ", price=" + price + ", stock=" + stock + ", maker="
-				+ maker + ", indate=" + indate + "]";
+		return "ProductDTO [pnum=" + pnum + ", category=" + category + ", pname=" + pname + ", price=" + price
+				+ ", stock=" + stock + ", maker=" + maker + ", indate=" + indate + "]";
 	}
+
 	
 }

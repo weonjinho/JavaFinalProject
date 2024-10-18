@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import dto.EmployeeDTO;
+import makeData.makeEmpno;
 
 public class EmployeeDAO {
 	private Connection conn = null;
@@ -43,23 +44,19 @@ public class EmployeeDAO {
 	public void insert(EmployeeDTO empdto) {
 		if(conn()) {
 			try {
-//				String 사원번호 = 받아온값;
-				String sql = "insert into emponeinfo values ('사원번호4', ?, ?, ?, sysdate, ?, ?, ?)";
+				makeEmpno m = new makeEmpno();
+				String empno = m.getEmpno();
+				String sql = "insert into empinfo values (?, ?, ?, ?, sysdate, ?, ?, ?)";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
-//				pstmt.setString(1, sql);
-//				pstmt.setString(2, empdto.getPassword());
-//				pstmt.setString(3, empdto.getName());
-//				pstmt.setString(4, empdto.getDeptName());
-//				pstmt.setString(5, empdto.getGender());
-//				pstmt.setString(6, empdto.getEmail());
-//				pstmt.setString(7, empdto.getTel());
-				pstmt.setString(1, empdto.getPassword());
-				pstmt.setString(2, empdto.getName());
-				pstmt.setString(3, empdto.getDeptName());
-				pstmt.setString(4, empdto.getGender());
-				pstmt.setString(5, empdto.getEmail());
-				pstmt.setString(6, empdto.getTel());
+				pstmt.setString(1, empno);
+				pstmt.setString(2, empdto.getPassword());
+				pstmt.setString(3, empdto.getName());
+				pstmt.setString(4, empdto.getDeptName());
+				pstmt.setString(5, empdto.getGender());
+				pstmt.setString(6, empdto.getEmail());
+				pstmt.setString(7, empdto.getTel());
 				int result = pstmt.executeUpdate();
+				m = null;
 				if(result > 0) {
 					conn.commit();
 				}else {
@@ -89,7 +86,7 @@ public class EmployeeDAO {
 		ArrayList<EmployeeDTO> elist = new ArrayList<>();
 		if(conn()) {
 			try {
-				String sql = "select * from emponeinfo";
+				String sql = "select * from empinfo";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery();
 				while(rs.next()) {
@@ -128,7 +125,7 @@ public class EmployeeDAO {
 	public EmployeeDTO selectOne(String employee) {
 		if(conn()) {
 			try {
-				String sql = "select * from emponeinfo where empno = ?";
+				String sql = "select * from empinfo where empno = ?";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, employee);
 				ResultSet rs = pstmt.executeQuery();
@@ -170,7 +167,7 @@ public class EmployeeDAO {
 			try {
 				System.out.println("111");
 				System.out.println(empno + " / " + i);
-				String sql = "update emponeinfo set password = ? where empno = ?";
+				String sql = "update empinfo set password = ? where empno = ?";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, i);
 				pstmt.setString(2, empno);
@@ -204,7 +201,7 @@ public class EmployeeDAO {
 	public void delete(String empno) {
 		if(conn()) {
 			try {
-				String sql = "delete from emponeinfo where empno = ?";
+				String sql = "delete from empinfo where empno = ?";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, empno);
 				int result = pstmt.executeUpdate();

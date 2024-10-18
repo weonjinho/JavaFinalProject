@@ -49,6 +49,11 @@ public class JoinFrame extends JFrame implements ActionListener{
 	private JTextField inputEmail = new JTextField(10);
 	private JTextField inputTel = new JTextField(10);
 	
+
+	public JTextField getInputDeptName() {
+		return inputDeptName;
+	}
+
 	public JoinFrame(){
 		//mainCenterPanel
 		//mainCenterPanel - Layout
