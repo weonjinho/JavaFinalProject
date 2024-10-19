@@ -79,17 +79,8 @@ public class loginForm_test extends JFrame{
 		centerInfoPanel.add(fifthLinePanle);
 		
 		
-		
-		
-		
-		
-		
-		
 		northPanel.add(northTitle);
 		centerPanel.add(centerInfoPanel);
-		
-		
-		
 		
 		
 		this.add(northPanel,"North");

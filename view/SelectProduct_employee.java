@@ -1,16 +1,22 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import dao.ProductDAO;
 import dto.ProductDTO;
@@ -55,6 +61,15 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 	private JButton searchBtn = new JButton("조회");
 	
 	//JTree
+	
+	//JTable
+	private JTable dataTable = new JTable();
+	private DefaultTableModel model2 = null;
+	private String[] colNames = {"제품번호", "제품명", "입고날짜", "카테고리", "제고수량","제조사","가격"};
+	private String[][] data = new String[50][7];
+	private JPanel panel3 = new JPanel();
+	private JScrollPane sp = null;
+	private Dimension d = null;
 	
 	//JTabbedPane
 	private JTabbedPane tab = new JTabbedPane();
@@ -101,10 +116,9 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 		
 		//container1
 		container1.setLayout(new BorderLayout());
-		container1.add(mainTabPanel);
+//		container1.add(mainTabPanel);
 		container1.add(containerNPanel,"North");
 		container1.add(containerCPanel,"Center");
-		
 		
 		//containerNPanel
 		containerNPanel.add(categoryLabel);
@@ -119,6 +133,28 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 		//mainCenterCPanel
 		mainCenterCPanel.setLayout(new BorderLayout()); //tab창이 축소되는 원인.
 		mainCenterCPanel.add(tab);
+		
+//----------------------------------------------------------------------------------	
+		model2 = new DefaultTableModel(colNames,0);
+		dataTable = new JTable(model2);
+		sp = new JScrollPane(dataTable);//table를 JScrollPane에 붙이는 코드.
+		sp.setBackground(Color.cyan);
+		dataTable.setFillsViewportHeight(true);
+		d = dataTable.getPreferredSize();
+		d.width = 800;
+		d.height = 650;
+		sp.setPreferredSize(d);//JScrollPane 사이즈 지정.
+		panel3.add(sp);
+		
+		containerCPanel.add(panel3);
+//----------------------------------------------------------------------------------		
+//		list에 데이터 추가.
+		String[] rowData;
+		ArrayList<ProductDTO> plist = pdao.selectAll();
+		for(ProductDTO i : plist) {
+			rowData = new String[] {i.getPnum(),i.getPname(), i.getIndate(), i.getCategory(), Integer.toString(i.getStock()), i.getMaker(), Integer.toString(i.getPrice())};
+			model2.addRow(rowData);
+		}
 		
 		
 		//JFrame

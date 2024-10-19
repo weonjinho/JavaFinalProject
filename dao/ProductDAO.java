@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import dto.ProductDTO;
 
@@ -39,14 +40,14 @@ public class ProductDAO {
 	public void insert(ProductDTO pdto, String pnum) {
 		if(conn()) {
 			try {
-				String sql = "insert into productmge values(?, ?, ?, ?, ?, ?, sysdate)";
+				String sql = "insert into productmge values(?, ?, sysdate, ?, ?, ?, ?)";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, pnum);
-				pstmt.setString(2, pdto.getCategory());
-				pstmt.setString(3, pdto.getPname());
-				pstmt.setInt(4, pdto.getPrice());
-				pstmt.setInt(5, pdto.getStock());
-				pstmt.setString(6, pdto.getMaker());
+				pstmt.setString(2, pdto.getPname());
+				pstmt.setString(3, pdto.getCategory());
+				pstmt.setInt(4, pdto.getStock());
+				pstmt.setString(5, pdto.getMaker());
+				pstmt.setInt(6, pdto.getPrice());
 				int result = pstmt.executeUpdate();
 				if(result > 0) {
 					conn.commit();
@@ -130,7 +131,31 @@ public class ProductDAO {
 		return null;
 	}
 	
-	
+	public ArrayList<ProductDTO> selectAll(){
+		ArrayList<ProductDTO> plist = new ArrayList<>();
+		if(conn()) {
+			try {
+				String sql = "select * from productmge";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();
+				while(rs.next()) {
+					ProductDTO pTemp = new ProductDTO();
+					pTemp.setPnum(rs.getString("pnum"));
+					pTemp.setCategory(rs.getString("category"));
+					pTemp.setPname(rs.getString("pname"));
+					pTemp.setPrice(rs.getInt("price"));
+					pTemp.setStock(rs.getInt("stock"));
+					pTemp.setMaker(rs.getString("maker"));
+					pTemp.setIndate(rs.getString("indate"));
+					plist.add(pTemp);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return plist;
+	}
 	
 	
 	

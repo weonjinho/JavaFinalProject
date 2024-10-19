@@ -20,7 +20,7 @@ import dto.EmployeeDTO;
 
 public class LoginFrame extends JFrame implements ActionListener{
 	EmployeeDAO empdao = new EmployeeDAO();
-	
+//	ProductFrame_02 pf = new ProductFrame_02();
 	private JPanel mainCenterPanel = new JPanel();
 	private JPanel mainSouthPanel = new JPanel();
 	private JPanel mainCLeftPanel = new JPanel();
@@ -33,8 +33,27 @@ public class LoginFrame extends JFrame implements ActionListener{
 	private JLabel labelPass = new JLabel("비밀번호");
 	private JTextField inputId = new JTextField(10);
 	private JTextField inputPass = new JTextField(10);
-	
-	
+	private String inputId2 = null;
+	private String inputPass2 = null;
+	private String nowUserName = null;
+	private String nowUserDept = null;
+
+
+
+	public void setNowUserName(String nowUserName) {
+		this.nowUserName = nowUserName;
+	}
+
+
+
+
+	public String getNowUserName() {
+		return nowUserName;
+	}
+
+
+
+
 	public LoginFrame(){
 		//BackgroundColor
 		mainCenterPanel.setLayout(new GridLayout(0,3));
@@ -71,6 +90,8 @@ public class LoginFrame extends JFrame implements ActionListener{
 		loginBtn.addActionListener(this);
 		findPassBtn.addActionListener(this);
 		joinBtn.addActionListener(this);
+		
+		
 	}
 
 
@@ -81,8 +102,8 @@ public class LoginFrame extends JFrame implements ActionListener{
 		if(e.getSource() == loginBtn) {
 			System.out.println("로그인 진행");
 			//로그인 기능 구현 코드.
-			String inputId2 = null;
-			String inputPass2 = null;
+//			String inputId2 = null;
+//			String inputPass2 = null;
 			EmployeeDTO employee = null;
 			boolean flag = true;
 			try {
@@ -92,6 +113,10 @@ public class LoginFrame extends JFrame implements ActionListener{
 					inputPass2 = inputPass.getText();
 					//입력받은 "사원번호"로 검색후 관련 정보 가져오기.
 					employee = empdao.selectOne(inputId2);
+					nowUserName = employee.getName();
+					nowUserDept = employee.getDeptName();
+//					System.out.println("현재 사용자 *** : " + nowUserName);
+					System.out.println("현재 사용자 *** : " + getNowUserName());
 					if(employee != null) {
 						if(inputPass2.equals(employee.getPassword())) {
 							System.out.println("로그인 성공");
@@ -99,11 +124,16 @@ public class LoginFrame extends JFrame implements ActionListener{
 								System.out.println("*****");
 								System.out.println("관리자 입니다.");
 								System.out.println("현재 관리자이름은 : " + employee.getName() + "입니다.");
-								new ProductFrame_02();
+//								new ProductFrame_02();
+								ProductFrame_02 pf = new ProductFrame_02();
+								pf.setEmpName(nowUserName);
+								pf.setNowDeptName(nowUserDept);
+								pf.ProductFrame_02();
 							}else {
 								System.out.println("====== " + employee.getDeptName() + "부 " + employee.getName() + " 사원입니다." + " ======");
 								new SelectProduct_employee();
 							}
+//							new ProductFrame_02();
 							this.dispose();
 							break;
 						}else {
@@ -142,4 +172,13 @@ public class LoginFrame extends JFrame implements ActionListener{
 			new JoinFrame();
 		}
 	}
+	
+	
+
+	
+	
+	
+	
+	
+	
 }

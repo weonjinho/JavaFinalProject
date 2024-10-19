@@ -1,6 +1,7 @@
 package main;
 
-import view.loginForm_test;
+import view.LoginFrame;
+import view.ProductFrame_02;
 
 public class Main {
 
@@ -14,7 +15,7 @@ public class Main {
 		//															       ---> (거짓)"로그인 설패"
 		
 		//로그인 창
-//		new LoginFrame();
+		new LoginFrame();
 		
 		//비밀번호 찾기 창
 //		new FindPassFrame();
@@ -25,9 +26,7 @@ public class Main {
 		
 //		new GetNowDate();
 		
-		
-		
-		new loginForm_test();
+//		new loginForm_test();
 		
 		//------ 제품정보 처리 파트 -----
 //		new ProductFrame();
@@ -48,6 +47,14 @@ public class Main {
 //		new AddProduct();
 		
 //		new SelectProduct_employee();
+		
+		
+		
+// ------------------- 공통 부분 ---------------------
+//		new JTable_test_1019();
+		
+		
+		
 	}
 
 }

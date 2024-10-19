@@ -2,24 +2,30 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import dao.ProductDAO;
 import dto.ProductDTO;
 
 public class ProductFrame_02 extends JFrame implements ActionListener{
 	ProductDAO pdao = new ProductDAO();
+	LoginFrame loginInfo = new LoginFrame();
 	
 	//맨 아레 복쪽.
 	private JPanel mainNorthPanel = new JPanel();
@@ -38,8 +44,13 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 	//맨 아레 중앙 중앙 북쪽.
 	private JPanel mainCenterCNPanel = new JPanel();
 	
+	
+	private JPanel container2_north = new JPanel();
+	private JPanel container2_center = new JPanel();
+	
+	
 	private JLabel westNorthLabel = new JLabel("Information");
-	private JLabel mainNorthEastLabel = new JLabel("xxx부서 xxx로그인중.");
+	private JLabel mainNorthEastLabel = new JLabel();
 	private JLabel mainNorthWestLabel = new JLabel("여기는 JTabbar의 위치입니다.");
 	private JLabel mainCWLabel = new JLabel("JTree가 있을 위치");
 	
@@ -88,16 +99,45 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 	private JTextField makerInput = new JTextField(10);
 	private JTextField indateInput = new JTextField(10);
 	
+	private JTable dataTable = new JTable();
+	private JTable dataTable2 = new JTable();
+	private DefaultTableModel model2 = null;
+	private String[] colNames = {"제품번호", "제품명", "입고날짜", "카테고리", "제고수량","제조사","가격"};
+	private String[][] data = new String[50][7];
+	private JPanel panel3 = new JPanel();
+	private JPanel panel4 = new JPanel();
+	private JScrollPane sp = null;
+	private JScrollPane sp2 = null;
+	private Dimension d = null;
+
 	private JButton addBtn = new JButton("등록");
 	private JButton cancelBtn = new JButton("취소");
 	
-	public ProductFrame_02() {
+	
+	private String empName = null;
+	private String nowDeptName = null;
+	public String getEmpName() {
+		return empName;
+	}
+
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+
+	public String getNowDeptName() {
+		return nowDeptName;
+	}
+
+	public void setNowDeptName(String nowDeptName) {
+		this.nowDeptName = nowDeptName;
+	}
+
+	public void ProductFrame_02() {
 		this.setLayout(new BorderLayout());
 		mainNorthPanel.setLayout(new BorderLayout());
 		mainCenterPanel.setLayout(new BorderLayout());
 		mainCenterWPanel.setLayout(new BorderLayout());
 		mainCenterCPanel.setLayout(new BorderLayout());
-		
 //		mainCenterCCCPanel.setLayout(new BorderLayout());
 		
 //		mainNorthPanel.setBackground(Color.red);
@@ -106,6 +146,10 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 //		mainCenterWNPanel.setBackground(Color.black);
 //		mainCenterWCPanel.setBackground(Color.darkGray);
 //		mainCenterCPanel.setBackground(Color.green);
+//		mainCenterPanel2.setBackground(Color.red);
+		mainSouthPanel.setBackground(Color.green);
+//		container2_center.setBackground(Color.blue);
+		
 		
 		mainCenterWNPanel.add(westNorthLabel);
 		mainCenterWCPanel.add(mainCWLabel);
@@ -116,83 +160,6 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 		mainCenterWPanel.add(mainCenterWCPanel,"Center");
 		mainCenterPanel.add(mainCenterCPanel,"Center");
 		mainCenterCPanel.add(mainCenterCNPanel,"North");
-		
-//		combobox
-//		JComboBox<String> combobox = new JComboBox<String>(category);
-// -----------------------------------------------------------------------------
-//		JTable
-//		Container contentPane = this.getContentPane();
-//		String[] header = {"제품번호", "제품명", "제고수량", "입고날짜", "제품가격", "카테고리"};
-//		String[][] contents = {
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//				{"aaa", "90","87","98", "90","87"},	
-//		};
-//		JTable table = new JTable(contents, header);
-//		JScrollPane scrollPane = new JScrollPane(table);
-//		contentPane.add(scrollPane,BorderLayout.CENTER);
-//		tablePanel.add(contentPane);
-//		
-//		this.pack();
-		
-		
-		
 // -----------------------------------------------------------------------------		
 		//탭 생성 ---> 컨테이너 생성 ---> 컴포넌트 생성 ---> 컴포넌트를 컨테이너에 추가.
 		JTabbedPane tab = new JTabbedPane();
@@ -209,9 +176,7 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 		//제조사 : maker
 		//입고날짜 : indate
 		mainPanel.setLayout(new BorderLayout());
-		mainCenterPanel2.setBackground(Color.blue);
 		//아레 패널
-		mainSouthPanel.setBackground(Color.green);
 		
 		mainPanel.add(mainCenterPanel2,"Center");
 		mainPanel.add(mainSouthPanel,"South");
@@ -247,9 +212,6 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 		thirdRPanel.add(indateLabel);
 		thirdRPanel.add(indateInput);
 		
-		//위 패널
-		mainCenterPanel2.setBackground(Color.red);
-		
 		mainCenterPanel2.setLayout(new GridLayout(5, 2));
 		//카테고리 Label
 		mainCenterPanel2.add(fourthLPanel);
@@ -272,18 +234,11 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 		//"취소"버튼
 		mainCenterPanel2.add(cancelBtn);
 	
-		
-		//리스너 등록
-//		addBtn.addActionListener(this);
-//		cancelBtn.addActionListener(this);
 
 		container1.add(mainPanel);
 		
 		//container2 --- 제품조회/변경
 		container2.setLayout(new BorderLayout());
-		JPanel container2_north = new JPanel();
-		JPanel container2_center = new JPanel();
-		
 		container2_north.add(categoryLabel);
 		container2_north.add(combobox2);
 		container2_north.add(searchLabel);
@@ -294,22 +249,59 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 		container2.add(container2_north,"North");
 		
 		//JTable 삽입 부분. table ---> tablePanel
-		container2_center.setBackground(Color.blue);
 		container2_center.setLayout(new BorderLayout());
-		container2_center.add(tablePanel);
+		container2_center.add(panel3);
 		container2.add(container2_center,"Center");
 		
 		//탭 이름 지정.
 		tab.add("제고등록",container1);
 		tab.add("제고조회/변경",container2);
+		
 		mainCenterCPanel.add(tab);
+		mainSouthPanel.add(panel4);
 // -----------------------------------------------------------------------------	
-		combobox1.addActionListener(this);//combobox actionListener
-		combobox2.addActionListener(this);//combobox actionListener
-		searchBtn.addActionListener(this);//검색 버튼 actionListener
-		changeBtn.addActionListener(this);//변경 버튼 actionListener
-		deleteBtn.addActionListener(this);//삭제 버튼 actionListener
-// -----------------------------------------------------------------------------		
+		model2 = new DefaultTableModel(colNames,0);
+		dataTable = new JTable(model2);
+		dataTable2 = new JTable(model2);
+		sp = new JScrollPane(dataTable);//table를 JScrollPane에 붙이는 코드.
+		sp2 = new JScrollPane(dataTable2);//table를 JScrollPane에 붙이는 코드.
+		sp.setBackground(Color.cyan);
+		dataTable.setFillsViewportHeight(true);
+		d = dataTable.getPreferredSize();
+		d.width = 800;
+		d.height = 650;
+		sp.setPreferredSize(d);//JScrollPane 사이즈 지정.
+		panel3.add(sp);
+		panel4.add(sp2);
+// -----------------------------------------------------------------------------	
+//		list에 데이터 추가.
+		String[] rowData;
+		ArrayList<ProductDTO> plist = pdao.selectAll();
+		for(ProductDTO i : plist) {
+			rowData = new String[] {i.getPnum(),i.getPname(), i.getIndate(), i.getCategory(), Integer.toString(i.getStock()), i.getMaker(), Integer.toString(i.getPrice())};
+			model2.addRow(rowData);
+		}
+		
+// -----------------------------------------------------------------------------
+		
+		System.out.println("사원ID : " + getEmpName());
+		mainNorthEastLabel.setText(getNowDeptName() + " " + getEmpName()+" 사용중. ");
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//JFrame
 		this.add(mainNorthPanel,"North");
 		this.add(mainCenterPanel,"Center");
 		this.setTitle("제품관리창_관리자");
@@ -320,6 +312,11 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 		//리스너 등록
 		addBtn.addActionListener(this);
 		cancelBtn.addActionListener(this);
+		combobox1.addActionListener(this);//combobox actionListener
+		combobox2.addActionListener(this);//combobox actionListener
+		searchBtn.addActionListener(this);//검색 버튼 actionListener
+		changeBtn.addActionListener(this);//변경 버튼 actionListener
+		deleteBtn.addActionListener(this);//삭제 버튼 actionListener
 	}
 
 	@Override
@@ -358,8 +355,11 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 			pdto.setMaker(maker);
 			pdto.setIndate(indate);
 			pdto.toString();
-			String pnum = ""; // 메소드 호출해서 받아올값.
+			String pnum = "제고0006"; // 메소드 호출해서 받아올값.
 			pdao.insert(pdto,pnum);
+			//새로운 값이 제품이 등록될때 마다 list를 새로고침 하는 코드. ---> 화면 껐다 다시 실행.
+			this.dispose();
+			new ProductFrame_02();
 		}
 		if(e.getSource() == cancelBtn) {
 			this.dispose();
