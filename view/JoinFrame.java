@@ -49,10 +49,16 @@ public class JoinFrame extends JFrame implements ActionListener{
 	private JTextField inputEmail = new JTextField(10);
 	private JTextField inputTel = new JTextField(10);
 	
+	private String inputDept = null;
 
-	public JTextField getInputDeptName() {
-		return inputDeptName;
+	public void setInputDept(String inputDept) {
+		this.inputDept = inputDept;
 	}
+
+	public String getInputDept() {
+		return inputDept;
+	}
+
 
 	public JoinFrame(){
 		//mainCenterPanel
@@ -136,29 +142,57 @@ public class JoinFrame extends JFrame implements ActionListener{
 //				System.out.println("비밀번호 : " + ee.getPassword());
 //			}
 		}
+		
+		
+		
 		if(e.getSource() == joinBtn) {
-			System.out.println("입력한 회원정보를 DB에 저장");
-			String empName1 = inputName.getText();
-			String inputPass1 = inputPass.getText();
-			String inputPassChk1 = inputPassChk.getText();
-			String inputDeptName1 = inputDeptName.getText();
-			String inputGender1 = inputGender.getText();
-			String inputEmail1 = inputEmail.getText();
-			String inputTel1 = inputTel.getText();
-			System.out.println(empName1 + " " + inputPass1 + " " + inputPassChk1 + " " + inputDeptName1 + " " + inputGender1 + " " + inputEmail1 + " " + inputTel1);
+			System.out.println();
+			System.out.println("----- JoinFrame 시작 -----");
+			System.out.println();
+			
+			System.out.println("--- 입력한 회원정보를 DB에 저장 시작 ---");
+			
+			String empName1 = inputName.getText();//입력한 "사원이름" 텍스트
+			String inputPass1 = inputPass.getText();//입력한 "비밀번호" 텍스트
+			String inputPassChk1 = inputPassChk.getText();//입력한 "비밀번호 확인" 텍스트
+			String inputDeptName1 = inputDeptName.getText();//입력한 "부서명" 택스트
+			String inputGender1 = inputGender.getText();//입력한 "성별" 택스트
+			String inputEmail1 = inputEmail.getText();//입력한 "이메일" 택스트
+			String inputTel1 = inputTel.getText();//입력한 "전화번호" 택스트
+			
+			setInputDept(inputDeptName1);
+			System.out.println("전달할 부서명 : " + getInputDept());
+			System.out.println( "*** 신입 사원 데이터 *** : " + empName1 + " " + inputPass1 + " " + inputPassChk1 + " " + inputDeptName1 + " " + inputGender1 + " " + inputEmail1 + " " + inputTel1);
+			
 			EmployeeDTO elist = new EmployeeDTO();
-			elist.setName(empName1);
-			if(inputPass1.equals(inputPassChk1)) {
+			//비밀번호 확인 기능 시작.
+			if(inputPass1.equals(inputPassChk1)) { 
 				System.out.println("비밀번호 일치");
-				elist.setPassword(inputPass1);
+				elist.setPassword(inputPass1);//비밀번호 정상 입력됨.
 			}else {
 				System.out.println("비밀번호 불일치");
 			}
-			elist.setDeptName(inputDeptName1);
-			elist.setGender(inputGender1);
-			elist.setEmail(inputEmail1);
-			elist.setTel(inputTel1);
-			empdao.insert(elist);
+			//--비밀번호 확인 기능 끝.
+			
+			
+			System.out.println("###########");
+			
+			elist.setName(empName1);//사원이름 정상 입력됨.
+			elist.setDeptName(inputDeptName1);//부서명 정상 입력됨.
+			elist.setGender(inputGender1);//성별 정상 입력됨.
+			elist.setEmail(inputEmail1);//이메일 정상 입력됨.
+			elist.setTel(inputTel1);//전화번호 정상 입력됨.
+			empdao.insert(elist);//EmployeeDAO에 전달
+			
+			System.out.println("%%%%%%%%%%%%%");
+			
+			System.out.println("--- 입력한 회원정보를 DB에 저장 끝 ---");
+
+			System.out.println();
+			System.out.println("----- JoinFrame 끝 -----");
+			System.out.println();
+			
+			
 			//현재 창 닫기.
 			this.dispose();
 			//로그인 창으로 이동.

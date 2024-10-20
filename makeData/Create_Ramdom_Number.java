@@ -11,7 +11,11 @@ public class Create_Ramdom_Number {
 	//참고 사이트 : https://operstu1.tistory.com/50#b
 	public String Create_Ramdom_Number(){
 		returnNum = randomNumber();
-		System.out.println("returnNum : " + returnNum);
+		System.out.println();
+		System.out.println("--- Create_Ramdom_Number 시작---");
+		System.out.println("생성한 랜덤 숫자 : " + returnNum);
+		System.out.println("--- Create_Ramdom_Number 끝 ---");
+		System.out.println();
 		return returnNum;
 	}
 //	Create_Ramdom_Number(){
