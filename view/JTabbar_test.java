@@ -18,7 +18,7 @@ public class JTabbar_test extends JFrame{
 		
 		JTabbedPane jtp = new JTabbedPane();
 		mainPanel.add(jtp, BorderLayout.CENTER);
-//		this.add(mainPanel);
+		this.add(mainPanel);
 		
 		JPanel jpanel1 = new JPanel(new GridLayout(2, 3));
 		jtp.add("제고등록",jpanel1);
@@ -36,7 +36,8 @@ public class JTabbar_test extends JFrame{
 		jpanel2.add(new JButton("Yellow"));
 		jpanel2.add(new JButton("Black"));
 		
-		
+//		this.add(jpanel1);
+//		this.add(jpanel2);
 		this.setSize(300,200);
 		this.setVisible(true);
 		

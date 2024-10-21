@@ -40,14 +40,17 @@ public class ProductDAO {
 	public void insert(ProductDTO pdto, String pnum) {
 		if(conn()) {
 			try {
-				String sql = "insert into productmge values(?, ?, sysdate, ?, ?, ?, ?)";
+//				String sql = "insert into productmge values(?, ?, sysdate, ?, ?, ?, ?)";
+				String sql = "insert into productmge values(?, ?, ?, ?, ?, ?, sysdate)"; //여기서 값을 입력하는 순서랑 DB에 컬럼 순서가 일치하는게 좋음.
 				PreparedStatement pstmt = conn.prepareStatement(sql);
+				//pstmt에 값을 매핑할때 순서도 DB속 컬럼 순서랑 일치하는게 좋음.
+				//
 				pstmt.setString(1, pnum);
-				pstmt.setString(2, pdto.getPname());
-				pstmt.setString(3, pdto.getCategory());
-				pstmt.setInt(4, pdto.getStock());
-				pstmt.setString(5, pdto.getMaker());
-				pstmt.setInt(6, pdto.getPrice());
+				pstmt.setString(2, pdto.getCategory());
+				pstmt.setString(3, pdto.getPname());
+				pstmt.setInt(4, pdto.getPrice());
+				pstmt.setInt(5, pdto.getStock());
+				pstmt.setString(6, pdto.getMaker());
 				int result = pstmt.executeUpdate();
 				if(result > 0) {
 					conn.commit();
@@ -74,59 +77,30 @@ public class ProductDAO {
 	
 	public ProductDTO selectOne(ProductDTO pdto) {
 		System.out.println("제품명 : " + pdto.getPname());
-		if(pdto.getPname() == null) {
-			if(conn()) {
-				//제품번호만 입력시
-				try {
-					String sql = "select * from productmge where pnum = ?";
-					PreparedStatement pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, pdto.getPnum());
-					ResultSet rs = pstmt.executeQuery();
-					if(rs.next()) {
-						ProductDTO pTemp = new ProductDTO();
-						pTemp.setPnum(rs.getString("pnum"));
-						pTemp.setPname(rs.getString("pname"));
-						pTemp.setPrice(rs.getInt("price"));
-						pTemp.setStock(rs.getInt("stock"));
-						pTemp.setMaker(rs.getString("maker"));
-						pTemp.setIndate(rs.getString("indate"));
-						return pTemp;
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		if(conn()) {
+			//제품번호만 입력시
+			try {
+				String sql = "select * from productmge where pnum = ?";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, pdto.getPnum());
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) {
+					ProductDTO pTemp = new ProductDTO();
+					pTemp.setPnum(rs.getString("pnum"));
+					pTemp.setPname(rs.getString("pname"));
+					pTemp.setPrice(rs.getInt("price"));
+					pTemp.setStock(rs.getInt("stock"));
+					pTemp.setMaker(rs.getString("maker"));
+					pTemp.setIndate(rs.getString("indate"));
+					return pTemp;
 				}
-				
-			}else {
-				System.out.println("Connection 확득 실패");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		}
-		if(pdto.getPnum() == null) {
-			if(conn()) {
-				//제품명만 입력시
-				try {
-					String sql = "select * from productmge where pname = ?";
-					PreparedStatement pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, pdto.getPname());
-					ResultSet rs = pstmt.executeQuery();
-					if(rs.next()) {
-						ProductDTO pTemp = new ProductDTO();
-						pTemp.setPnum(rs.getString("pnum"));
-						pTemp.setPname(rs.getString("pname"));
-						pTemp.setPrice(rs.getInt("price"));
-						pTemp.setStock(rs.getInt("stock"));
-						pTemp.setMaker(rs.getString("maker"));
-						pTemp.setIndate(rs.getString("indate"));
-						return pTemp;
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				//제품명만 입력시
-			}else {
-				System.out.println("Connection 확득 실패");
-			}
+			
+		}else {
+			System.out.println("Connection 확득 실패");
 		}
 		return null;
 	}
@@ -157,7 +131,27 @@ public class ProductDAO {
 		return plist;
 	}
 	
-	
+	public void delete(Object sel) {
+		if(conn()) {
+			try {
+				String a = String.valueOf(sel);
+				String sql = "delete from productmge where pnum = ?";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, a);
+				int result = pstmt.executeUpdate();
+				if(result > 0) {
+					conn.commit();
+				}else {
+					conn.rollback();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			System.out.println("Connection 자원 획득 실패");
+		}
+	}
 	
 	
 	

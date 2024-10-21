@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,21 +45,21 @@ public class FindPassFrame extends JFrame implements ActionListener{
 		this.setLayout(new BorderLayout());
 		mainCenterPanel.setLayout(new GridLayout(4, 0));
 		
-		firstPanel.setLayout(new GridLayout(0, 2));
-		firstRPanel.setLayout(new GridLayout(0, 2));
+		firstPanel.setLayout(new FlowLayout());
+		firstRPanel.setLayout(new FlowLayout());
 		firstPanel.add(checkIdLabel);
 		firstRPanel.add(inputChkId);
 		firstRPanel.add(checkBtn);
 		firstPanel.add(firstRPanel);
 		
-		secondPanel.setLayout(new GridLayout(0,1));
+		secondPanel.setLayout(new FlowLayout());
 		secondPanel.add(checkResult);
 		
-		thirdPanel.setLayout(new GridLayout(0, 2));
+		thirdPanel.setLayout(new FlowLayout());
 		thirdPanel.add(newPassLabel);
 		thirdPanel.add(inputNewPass);
 		
-		fourthPanel.setLayout(new GridLayout(0, 2));
+		fourthPanel.setLayout(new FlowLayout());
 		fourthPanel.add(chkNewPassLabel);
 		fourthPanel.add(inputChkPass);
 		
@@ -67,7 +68,7 @@ public class FindPassFrame extends JFrame implements ActionListener{
 		mainCenterPanel.add(thirdPanel);
 		mainCenterPanel.add(fourthPanel);
 		
-		mainSouthPanel.setLayout(new GridLayout(0, 2));
+		mainSouthPanel.setLayout(new FlowLayout());
 		mainSouthPanel.add(cancelBtn);
 		mainSouthPanel.add(changeBtn);
 		

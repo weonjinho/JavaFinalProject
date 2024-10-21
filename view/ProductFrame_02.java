@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -18,14 +20,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 
+import MakeData.GetNowDate;
+import MakeData.MakeProductNum;
 import dao.ProductDAO;
 import dto.ProductDTO;
 
-public class ProductFrame_02 extends JFrame implements ActionListener{
+public class ProductFrame_02 extends JFrame implements ActionListener, MouseListener{
 	ProductDAO pdao = new ProductDAO();
 	LoginFrame loginInfo = new LoginFrame();
+	
 	
 	//맨 아레 복쪽.
 	private JPanel mainNorthPanel = new JPanel();
@@ -51,8 +58,12 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 	
 	private JLabel westNorthLabel = new JLabel("Information");
 	private JLabel mainNorthEastLabel = new JLabel();
-	private JLabel mainNorthWestLabel = new JLabel("여기는 JTabbar의 위치입니다.");
+	private JLabel mainNorthWestLabel = new JLabel(" 제고관리 시스탬_관리자");
 	private JLabel mainCWLabel = new JLabel("JTree가 있을 위치");
+	
+	private DefaultMutableTreeNode productMge = new DefaultMutableTreeNode("제고관리");
+	private DefaultMutableTreeNode addProduct = new DefaultMutableTreeNode("제고등록");
+	private DefaultMutableTreeNode productInfotree  = new DefaultMutableTreeNode("제고조회/변경");
 	
 	private JLabel categoryLabel2 = new JLabel("카테고리");
 //	private JTextField categoryInput = new JTextField(10);
@@ -67,6 +78,7 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 	private String[] productInfo = {"제품번호", "제품명", "제고수량", "입고날짜", "제품가격", "카테고리"};
 	
 	private String[] category1 = {"생활가전", "주방가전", "계절가전", "통신용품", "PC 용품"};
+
 	
 	private JComboBox<String> combobox1 = new JComboBox<String>(category1);
 	private JComboBox<String> combobox2 = new JComboBox<String>(category1);
@@ -113,7 +125,6 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 	private JButton addBtn = new JButton("등록");
 	private JButton cancelBtn = new JButton("취소");
 	
-	
 	private String empName = null;
 	private String nowDeptName = null;
 	public String getEmpName() {
@@ -132,27 +143,35 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 		this.nowDeptName = nowDeptName;
 	}
 
+	public static String  selectedCategory = null;
+	private Object bbb = null;
+	
 	public void ProductFrame_02() {
 		this.setLayout(new BorderLayout());
 		mainNorthPanel.setLayout(new BorderLayout());
 		mainCenterPanel.setLayout(new BorderLayout());
 		mainCenterWPanel.setLayout(new BorderLayout());
 		mainCenterCPanel.setLayout(new BorderLayout());
-//		mainCenterCCCPanel.setLayout(new BorderLayout());
 		
 //		mainNorthPanel.setBackground(Color.red);
-		mainCenterPanel.setBackground(Color.cyan);
+//		mainCenterPanel.setBackground(Color.cyan);
 //		mainCenterWPanel.setBackground(Color.yellow);
 //		mainCenterWNPanel.setBackground(Color.black);
 //		mainCenterWCPanel.setBackground(Color.darkGray);
 //		mainCenterCPanel.setBackground(Color.green);
 //		mainCenterPanel2.setBackground(Color.red);
-		mainSouthPanel.setBackground(Color.green);
+//		mainSouthPanel.setBackground(Color.green);
 //		container2_center.setBackground(Color.blue);
 		
 		
 		mainCenterWNPanel.add(westNorthLabel);
-		mainCenterWCPanel.add(mainCWLabel);
+		
+		productMge.add(addProduct);
+		productMge.add(productInfotree);
+		JTree jt = new JTree(productMge);
+		mainCenterWCPanel.add(jt);
+		
+		
 		mainNorthPanel.add(mainNorthWestLabel,"West");
 		mainNorthPanel.add(mainNorthEastLabel,"East");
 		mainCenterPanel.add(mainCenterWPanel,"West");
@@ -163,7 +182,6 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 // -----------------------------------------------------------------------------		
 		//탭 생성 ---> 컨테이너 생성 ---> 컴포넌트 생성 ---> 컴포넌트를 컨테이너에 추가.
 		JTabbedPane tab = new JTabbedPane();
-		
 		JPanel container1 = new JPanel();
 		JPanel container2 = new JPanel();
 		
@@ -193,6 +211,7 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 //		카테고리
 		fourthLPanel.add(categoryLabel2);
 		fourthRPanel.add(combobox1);
+		
 //		제품번호
 		firstLPanel.add(pNumLabel);
 		firstLPanel.add(pNumInput);
@@ -259,7 +278,6 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 		
 		mainCenterCPanel.add(tab);
 		mainSouthPanel.add(panel4);
-// -----------------------------------------------------------------------------	
 		model2 = new DefaultTableModel(colNames,0);
 		dataTable = new JTable(model2);
 		dataTable2 = new JTable(model2);
@@ -273,7 +291,6 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 		sp.setPreferredSize(d);//JScrollPane 사이즈 지정.
 		panel3.add(sp);
 		panel4.add(sp2);
-// -----------------------------------------------------------------------------	
 //		list에 데이터 추가.
 		String[] rowData;
 		ArrayList<ProductDTO> plist = pdao.selectAll();
@@ -282,24 +299,8 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 			model2.addRow(rowData);
 		}
 		
-// -----------------------------------------------------------------------------
-		
 		System.out.println("사원ID : " + getEmpName());
 		mainNorthEastLabel.setText(getNowDeptName() + " " + getEmpName()+" 사용중. ");
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		//JFrame
 		this.add(mainNorthPanel,"North");
@@ -317,6 +318,7 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 		searchBtn.addActionListener(this);//검색 버튼 actionListener
 		changeBtn.addActionListener(this);//변경 버튼 actionListener
 		deleteBtn.addActionListener(this);//삭제 버튼 actionListener
+		dataTable.addMouseListener(this);
 	}
 
 	@Override
@@ -332,17 +334,19 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 			System.out.println("변경할 내용 : " + input);
 		}
 		if(e.getSource() == deleteBtn) {
-			String input = searchInput.getText();
-			System.out.println("삭제할 내용 : " + input);
+			ProductDAO pdao = new ProductDAO();
+			pdao.delete(selNum());
 		}
 		if(e.getSource() == addBtn) {
 			String category = combobox1.getSelectedItem().toString();
+			selectedCategory = combobox1.getSelectedItem().toString();
 			String pNum = pNumInput.getText();
 			String pName = pNameInput.getText();
 			int price = Integer.parseInt(priceInput.getText());
 			int stock = Integer.parseInt(stockInput.getText());
 			String maker = makerInput.getText();
-			String indate = indateInput.getText();// 메소드 호출해서 현재 날짜 기져오기.
+			GetNowDate date = new GetNowDate();
+			String indate = date.GetNowDate();// 메소드 호출해서 현재 날짜 기져오기.
 			
 			System.out.println(pNum + " / " + pName + " / " + price + " / " + stock + " / " + maker + " / " + indate);
 			
@@ -353,16 +357,62 @@ public class ProductFrame_02 extends JFrame implements ActionListener{
 			pdto.setPrice(price);
 			pdto.setStock(stock);
 			pdto.setMaker(maker);
-			pdto.setIndate(indate);
 			pdto.toString();
-			String pnum = "제고0006"; // 메소드 호출해서 받아올값.
+			MakeProductNum mp = new MakeProductNum();
+			String pnum = mp.getProductNum(); // 메소드 호출해서 받아올값.
+			mp = null;
 			pdao.insert(pdto,pnum);
+			pdto = null;
 			//새로운 값이 제품이 등록될때 마다 list를 새로고침 하는 코드. ---> 화면 껐다 다시 실행.
-			this.dispose();
 			new ProductFrame_02();
 		}
 		if(e.getSource() == cancelBtn) {
 			this.dispose();
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int row = dataTable.getSelectedRow();
+		Object aaa = dataTable.getValueAt(row, 0);
+		System.out.println("선택된 row의 내용 : " + aaa);
+		bbb = aaa;
+	}
+
+	
+	
+	public Object selNum() {
+		return bbb;
+	}
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

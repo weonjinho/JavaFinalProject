@@ -49,17 +49,7 @@ public class JoinFrame extends JFrame implements ActionListener{
 	private JTextField inputEmail = new JTextField(10);
 	private JTextField inputTel = new JTextField(10);
 	
-	private String inputDept = null;
-
-	public void setInputDept(String inputDept) {
-		this.inputDept = inputDept;
-	}
-
-	public String getInputDept() {
-		return inputDept;
-	}
-
-
+	public static String inputDept = null;//사원등록시 입력한 사원번호를 받아올 변수.
 	public JoinFrame(){
 		//mainCenterPanel
 		//mainCenterPanel - Layout
@@ -127,31 +117,32 @@ public class JoinFrame extends JFrame implements ActionListener{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
+	   //이메일 정규 표현식 검사.
+	   private boolean isValidEmail(String email) {
+	        // 이메일 유효성 검사 정규표현식
+	        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+	        return email.matches(emailRegex);
+	    }
+	
+	   //전화번호 정규 표현식 검사.
+	   private boolean checkTelNum (String telNum) {
+		   String telRegex = "^\\d{3}-\\d{3,4}-\\d{4}$";
+		   return telNum.matches(telRegex);
+	   }
+	
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == cancelBtn) {
 			//창 닫는 코드.
 			this.dispose();
-			//전체조회 코드 ( 테스트용 )
-			//selectAll() 실행 확인 코드.
-//			ArrayList<EmployeeDTO> elist2 = empdao.selectAll();
-//			for(EmployeeDTO ee : elist2) {
-//				System.out.println("111");
-//				System.out.println(ee.toString());
-//				System.out.println("사원번호 : " + ee.getEmpno());
-//				System.out.println("비밀번호 : " + ee.getPassword());
-//			}
 		}
-		
-		
-		
 		if(e.getSource() == joinBtn) {
 			System.out.println();
 			System.out.println("----- JoinFrame 시작 -----");
 			System.out.println();
-			
 			System.out.println("--- 입력한 회원정보를 DB에 저장 시작 ---");
-			
 			String empName1 = inputName.getText();//입력한 "사원이름" 텍스트
 			String inputPass1 = inputPass.getText();//입력한 "비밀번호" 텍스트
 			String inputPassChk1 = inputPassChk.getText();//입력한 "비밀번호 확인" 텍스트
@@ -159,9 +150,8 @@ public class JoinFrame extends JFrame implements ActionListener{
 			String inputGender1 = inputGender.getText();//입력한 "성별" 택스트
 			String inputEmail1 = inputEmail.getText();//입력한 "이메일" 택스트
 			String inputTel1 = inputTel.getText();//입력한 "전화번호" 택스트
-			
-			setInputDept(inputDeptName1);
-			System.out.println("전달할 부서명 : " + getInputDept());
+			inputDept = inputDeptName1;
+			System.out.println("전달할 부서명 : " + inputDept);
 			System.out.println( "*** 신입 사원 데이터 *** : " + empName1 + " " + inputPass1 + " " + inputPassChk1 + " " + inputDeptName1 + " " + inputGender1 + " " + inputEmail1 + " " + inputTel1);
 			
 			EmployeeDTO elist = new EmployeeDTO();
@@ -173,26 +163,33 @@ public class JoinFrame extends JFrame implements ActionListener{
 				System.out.println("비밀번호 불일치");
 			}
 			//--비밀번호 확인 기능 끝.
-			
-			
-			System.out.println("###########");
-			
 			elist.setName(empName1);//사원이름 정상 입력됨.
 			elist.setDeptName(inputDeptName1);//부서명 정상 입력됨.
 			elist.setGender(inputGender1);//성별 정상 입력됨.
-			elist.setEmail(inputEmail1);//이메일 정상 입력됨.
-			elist.setTel(inputTel1);//전화번호 정상 입력됨.
+			
+			
+			
+			if(isValidEmail(inputEmail1)) {
+				elist.setEmail(inputEmail1);//이메일 정상 입력됨.
+			}else {
+				System.out.println("이메일 형식 이상.");
+			}
+			
+			if(checkTelNum(inputTel1)) {
+				elist.setTel(inputTel1);//전화번호 정상 입력됨.
+			}else {
+				System.out.println("전화번호 형식 이상.");
+			}
+			
+			
+			
+			
 			empdao.insert(elist);//EmployeeDAO에 전달
-			
-			System.out.println("%%%%%%%%%%%%%");
-			
 			System.out.println("--- 입력한 회원정보를 DB에 저장 끝 ---");
 
 			System.out.println();
 			System.out.println("----- JoinFrame 끝 -----");
 			System.out.println();
-			
-			
 			//현재 창 닫기.
 			this.dispose();
 			//로그인 창으로 이동.

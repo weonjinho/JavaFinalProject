@@ -16,7 +16,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import dao.ProductDAO;
 import dto.ProductDTO;
@@ -37,15 +39,44 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 	private JPanel containerCPanel = new JPanel();
 	private JPanel mainTabPanel = new JPanel();
 	
+	private String nowUserName2 = null;
+	public String getNowUserName2() {
+		return nowUserName2;
+	}
+
+	public void setNowUserName2(String nowUserName2) {
+		this.nowUserName2 = nowUserName2;
+	}
+
+	private String nowUserDeptName2 = null;
+	public String getNowUserDeptName2() {
+		return nowUserDeptName2;
+	}
+
+	public void setNowUserDeptName2(String nowUserDeptName2) {
+		this.nowUserDeptName2 = nowUserDeptName2;
+	}
+
+	
+	
+	
 	//JLabel
-	private JLabel mainNWLabel = new JLabel("JTabbar 위치");
+	private JLabel mainNWLabel = new JLabel("제고관리 시스탬_일반사원");
 	private JLabel mainNELabel = new JLabel("xxx부서 xxx로그인 중.");
 	private JLabel mainCWNLabel = new JLabel("Information");
-	private JLabel jTreeLabel = new JLabel("JTree 위치");
+	private JLabel jTreeLabel = new JLabel();
+	
+	private DefaultMutableTreeNode productMge = new DefaultMutableTreeNode("제고관리");
+	private DefaultMutableTreeNode addProduct = new DefaultMutableTreeNode("제고등록");
+	private DefaultMutableTreeNode productInfotree  = new DefaultMutableTreeNode("제고조회/변경");
+	
+	
+	
+	
 	private JLabel categoryLabel = new JLabel("카테고리");
 	//카테고리, 제품명, 제품번호 
-	private JLabel pNameSearchLabel = new JLabel("제품번호");
-	private JLabel pNumSearchLabel = new JLabel("제품명");
+	private JLabel pNameSearchLabel = new JLabel("제품명");
+	private JLabel pNumSearchLabel = new JLabel("제품번호");
 	
 	
 	//JCombobox
@@ -54,13 +85,12 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 	
 	//JTextField
 	private JTextField searchInput = new JTextField(10);
-	private JTextField pNameSearchInput = new JTextField(10);
 	private JTextField pNumSearchInput = new JTextField(10);
+	private JTextField pNameSearchInput = new JTextField(10);
 	
 	//JButton
 	private JButton searchBtn = new JButton("조회");
 	
-	//JTree
 	
 	//JTable
 	private JTable dataTable = new JTable();
@@ -94,6 +124,7 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 		//mainNWPanel
 		mainNWPanel.add(mainNWLabel);
 		//mainNEPanel
+		mainNELabel.setText(getNowUserDeptName2() + " " + getNowUserName2() + "사용중. ");
 		mainNEPanel.add(mainNELabel);
 		
 		
@@ -123,10 +154,10 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 		//containerNPanel
 		containerNPanel.add(categoryLabel);
 		containerNPanel.add(categoryList);
-		containerNPanel.add(pNameSearchLabel);
-		containerNPanel.add(pNameSearchInput);
 		containerNPanel.add(pNumSearchLabel);
 		containerNPanel.add(pNumSearchInput);
+		containerNPanel.add(pNameSearchLabel);
+		containerNPanel.add(pNameSearchInput);
 		containerNPanel.add(searchBtn);
 		
 		
@@ -156,6 +187,14 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 			model2.addRow(rowData);
 		}
 		
+		
+		
+		
+		
+		productMge.add(addProduct);
+		productMge.add(productInfotree);
+		JTree jt = new JTree(productMge);
+		mainCenterWCPanel.add(jt);
 		
 		//JFrame
 		this.add(mainNorthPanel,"North");

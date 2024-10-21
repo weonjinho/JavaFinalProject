@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import MakeData.makeEmpno;
 import dto.EmployeeDTO;
-import makeData.makeEmpno;
 
 public class EmployeeDAO {
 	private Connection conn = null;
