@@ -31,7 +31,7 @@ import dto.ProductDTO;
 
 public class ProductFrame_02 extends JFrame implements ActionListener, MouseListener{
 	ProductDAO pdao = new ProductDAO();
-	LoginFrame loginInfo = new LoginFrame();
+	LoginFrame_02 loginInfo = new LoginFrame_02();
 	
 	
 	//맨 아레 복쪽.
@@ -63,15 +63,15 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 	
 	private DefaultMutableTreeNode productMge = new DefaultMutableTreeNode("제고관리");
 	private DefaultMutableTreeNode addProduct = new DefaultMutableTreeNode("제고등록");
-	private DefaultMutableTreeNode productInfotree  = new DefaultMutableTreeNode("제고조회/변경");
+	private DefaultMutableTreeNode productInfotree  = new DefaultMutableTreeNode("제고조회/삭제");
 	
 	private JLabel categoryLabel2 = new JLabel("카테고리");
 //	private JTextField categoryInput = new JTextField(10);
-	private JLabel searchLabel = new JLabel("검색어");
+	private JLabel searchLabel = new JLabel(" 검색할 제품 번호");
 	private JTextField searchInput = new JTextField(10);
 	private JButton searchBtn = new JButton("검색");
-	private JButton changeBtn = new JButton("변경");
 	private JButton deleteBtn = new JButton("삭제");
+	private JButton outBtn = new JButton("출고");
 	
 	private JLabel table = new JLabel("JTable_panel의 위치입니다.");
 	private JPanel tablePanel = new JPanel();//JTable를 만든 뒤 이 panel위에 올립니다.
@@ -124,6 +124,7 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 
 	private JButton addBtn = new JButton("등록");
 	private JButton cancelBtn = new JButton("취소");
+	private JPanel btnPanel = new JPanel();
 	
 	private String empName = null;
 	private String nowDeptName = null;
@@ -145,6 +146,9 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 
 	public static String  selectedCategory = null;
 	private Object bbb = null;
+	private String strPnum = null;
+	
+	
 	
 	public void ProductFrame_02() {
 		this.setLayout(new BorderLayout());
@@ -207,14 +211,16 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		thirdRPanel.setLayout(new FlowLayout());
 		fourthLPanel.setLayout(new FlowLayout());
 		fourthRPanel.setLayout(new FlowLayout());
+//		btnPanel.setLayout(new FlowLayout());
 		
 //		카테고리
-		fourthLPanel.add(categoryLabel2);
+//		fourthLPanel.add(categoryLabel2);
+		fourthRPanel.add(categoryLabel2);
 		fourthRPanel.add(combobox1);
 		
 //		제품번호
-		firstLPanel.add(pNumLabel);
-		firstLPanel.add(pNumInput);
+//		firstLPanel.add(pNumLabel);
+//		firstLPanel.add(pNumInput);
 //		제품명
 		firstRPanel.add(pNameLabel);
 		firstRPanel.add(pNameInput);
@@ -231,29 +237,18 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		thirdRPanel.add(indateLabel);
 		thirdRPanel.add(indateInput);
 		
-		mainCenterPanel2.setLayout(new GridLayout(5, 2));
-		//카테고리 Label
-		mainCenterPanel2.add(fourthLPanel);
-		//카테고리 창
+		//"등록" & "취소"버튼
+		btnPanel.add(addBtn);
+		btnPanel.add(cancelBtn);
+		
+		mainCenterPanel2.setLayout(new GridLayout(3, 2));
 		mainCenterPanel2.add(fourthRPanel);
-		//제품번호
-		mainCenterPanel2.add(firstLPanel);
-		//제품명
 		mainCenterPanel2.add(firstRPanel);
-		//가격
 		mainCenterPanel2.add(secondLPanel);
-		//제고수량
 		mainCenterPanel2.add(secondRPanel);
-		//제조가
 		mainCenterPanel2.add(thirdLPanel);
-		//입고날짜
-		mainCenterPanel2.add(thirdRPanel);
-		//"등록" 버튼
-		mainCenterPanel2.add(addBtn);
-		//"취소"버튼
-		mainCenterPanel2.add(cancelBtn);
-	
-
+		mainCenterPanel2.add(btnPanel);
+		
 		container1.add(mainPanel);
 		
 		//container2 --- 제품조회/변경
@@ -263,8 +258,8 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		container2_north.add(searchLabel);
 		container2_north.add(searchInput);
 		container2_north.add(searchBtn);
-		container2_north.add(changeBtn);
 		container2_north.add(deleteBtn);
+		container2_north.add(outBtn);
 		container2.add(container2_north,"North");
 		
 		//JTable 삽입 부분. table ---> tablePanel
@@ -316,7 +311,7 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		combobox1.addActionListener(this);//combobox actionListener
 		combobox2.addActionListener(this);//combobox actionListener
 		searchBtn.addActionListener(this);//검색 버튼 actionListener
-		changeBtn.addActionListener(this);//변경 버튼 actionListener
+		outBtn.addActionListener(this);//변경 버튼 actionListener
 		deleteBtn.addActionListener(this);//삭제 버튼 actionListener
 		dataTable.addMouseListener(this);
 	}
@@ -325,13 +320,40 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String selected = combobox2.getSelectedItem().toString();
+		// 제품번호로 검색하는 기능.
 		if(e.getSource() == searchBtn) {
 			String input = searchInput.getText();
 			System.out.println("입력한 내용 : " + input + " / " + selected);
+			ProductDTO plist = pdao.selectOne(input);
+			String pnum = plist.getPnum();
+			String pcategory = plist.getCategory();
+			String pname = plist.getPname();
+			int price = plist.getPrice();
+			int stock = plist.getStock();
+			String maker = plist.getMaker();
+			String indate = plist.getIndate();
+			System.out.println(pnum + " " + pcategory + " " +  pname + " " +  price + " " +  stock + " " +  maker + " " +  indate);
+			
 		}
-		if(e.getSource() == changeBtn) {
-			String input = searchInput.getText();
-			System.out.println("변경할 내용 : " + input);
+		//"출고"버튼 엑션
+		if(e.getSource() == outBtn) {
+			//"출고"버튼 클릭 후 DB에서도 제고 수량을 update 해야한다.
+			System.out.println("출고");
+			ProductDTO pdto = pdao.selectOne(strValue());
+			String pnum = pdto.getPnum();
+//			String pname = pdto.getPname();
+//			int price = pdto.getPrice();
+//			int calStock = (pdto.getStock())-1;
+//			String pmaker = pdto.getMaker();
+//			System.out.println("번호 : " + pnum + " 카테고리 : " + category + " 제품명 : " + pname + " 가격 : " + price + " 제고 수량 : " + calStock + " 제조사 : " + pmaker);
+			pdto = null;
+//			String category = pdto.getCategory();
+			
+			pdao.update2(pnum);
+			
+			ProductDTO a = pdao.selectOne(strValue());
+			int kstock = a.getStock();
+			System.out.println("남은 제고 : " + kstock);
 		}
 		if(e.getSource() == deleteBtn) {
 			ProductDAO pdao = new ProductDAO();
@@ -377,7 +399,7 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		int row = dataTable.getSelectedRow();
 		Object aaa = dataTable.getValueAt(row, 0);
 		System.out.println("선택된 row의 내용 : " + aaa);
-		bbb = aaa;
+		bbb = aaa;//마우스 클릭된 row의 제품번호만 리턴.
 	}
 
 	
@@ -387,8 +409,10 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 	}
 	
 	
-	
-	
+	public String strValue() {
+		strPnum = bbb.toString();
+		return strPnum;
+	}
 	
 	
 	

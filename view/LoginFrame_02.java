@@ -114,14 +114,17 @@ public class LoginFrame_02 extends JFrame implements ActionListener{
 						}else {
 //							new SelectProduct_employee();
 							SelectProduct_employee s = new SelectProduct_employee();
-							s.setNowUserName2(nowUserName);
-							s.setNowUserDeptName2(nowUserDept);
-							s = null;
+//							s.setNowUserName2(nowUserName);
+//							s.setNowUserDeptName2(nowUserDept);
+//							nowUserName2 = nowUserName;
+//							nowUserDeptName2 = nowUserDept;
 						}
 						this.dispose();
 						break;
 					}else {
 						System.out.println("로그인 실패");
+						
+						
 						if(!inputPass.equals(employee.getPassword())){
 							System.out.println("비밀번호 오류");
 						}

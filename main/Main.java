@@ -1,7 +1,6 @@
 package main;
 
-import view.LoginFrame_02;
-import view.loginForm_test;
+import view.ProductFrame_02;
 
 public class Main {
 
@@ -29,7 +28,7 @@ public class Main {
 		
 //		new loginForm_test();
 		
-		new LoginFrame_02(); // 로그인 ---> 시작 위치.
+//		new LoginFrame_02(); // 로그인 ---> 시작 위치.
 		
 		
 		
@@ -44,7 +43,7 @@ public class Main {
 		
 //		new JTabbar_test();
 		
-//		new ProductFrame_02(); //제품관린
+		new ProductFrame_02(); //제품관린
 		
 //		new JTable_test_02();
 		

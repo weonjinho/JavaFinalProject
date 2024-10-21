@@ -76,7 +76,7 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 	private JLabel categoryLabel = new JLabel("카테고리");
 	//카테고리, 제품명, 제품번호 
 	private JLabel pNameSearchLabel = new JLabel("제품명");
-	private JLabel pNumSearchLabel = new JLabel("제품번호");
+	private JLabel pNumSearchLabel = new JLabel("제품번호 * ");
 	
 	
 	//JCombobox
@@ -124,7 +124,7 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 		//mainNWPanel
 		mainNWPanel.add(mainNWLabel);
 		//mainNEPanel
-		mainNELabel.setText(getNowUserDeptName2() + " " + getNowUserName2() + "사용중. ");
+		mainNELabel.setText(nowUserDeptName2 + " " + nowUserName2 + "사용중. ");
 		mainNEPanel.add(mainNELabel);
 		
 		
@@ -187,10 +187,6 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 			model2.addRow(rowData);
 		}
 		
-		
-		
-		
-		
 		productMge.add(addProduct);
 		productMge.add(productInfotree);
 		JTree jt = new JTree(productMge);
@@ -217,16 +213,23 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 		if(e.getSource() == searchBtn) {
 			System.out.println("111");
 			System.out.println(selected + " / " + inputPName + " / " + inputPNum);
+			ProductDTO plists = new ProductDTO();
+			plists = pdao.selectOne(inputPNum);
+			String pnum = plists.getPnum();//제품번호
+			String pcategory = plists.getCategory();//카테고리
+			String pname = plists.getPname();//제품명
+			int price = plists.getPrice();//가격
+			int stock = plists.getStock();//제고수량
+			String maker = plists.getMaker();//제조사
+			//"조회"하면 list에 출력할 내용.
+			System.out.println("가져온 제품의 정보 : " + pnum + " " + pcategory + " " + pname + " " + price + " " + stock + " " + maker);
 			ProductDTO plist = new ProductDTO();
 			plist.setCategory(selected);
 			plist.setPname(inputPName);
 			plist.setPnum(inputPNum);
-			ProductDTO pp =  pdao.selectOne(plist);
+			ProductDTO pp =  pdao.selectOne2(plist);
 			pp.toString();
-//			ProductDTO pp= pdao.selectOne(plist);
-//			System.out.println(pp.toString());
 		}
-		//ProductDAO.selectOne() 메소드로 필요한 튜플의 정보를 모두 가져온다. 
 		
 	}
 }
