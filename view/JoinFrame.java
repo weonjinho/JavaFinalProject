@@ -19,93 +19,91 @@ import dao.EmployeeDAO;
 import dto.EmployeeDTO;
 
 public class JoinFrame extends JFrame implements ActionListener{
-	EmployeeDAO empdao = new EmployeeDAO();
+	//DAO 접근용 변수.
+	private EmployeeDAO empdao = new EmployeeDAO();
 	
-	private JPanel mainCenterPanel = new JPanel();
-	private JPanel mainSouthPanel = new JPanel();
-	private JButton cancelBtn = new JButton("취소");
-	private JButton joinBtn = new JButton("가입");
-	private JPanel mainCenterFirstPanel = new JPanel();
-	private JPanel mainCenterSecondPanel = new JPanel();
-	private JPanel mainCenterThirdPanel = new JPanel();
-	private JPanel mainCenterFourthPanel = new JPanel();
-	private JPanel mainCenterFifthPanel = new JPanel();
-	private JPanel mainCenterSixPanel = new JPanel();
-	private JPanel mainCenterSevenPanel = new JPanel();
+	//Swing 배치
+	private JPanel mainCenterPanel = new JPanel();//"라벨 & 입려창"이 있는 패널.
 	
+	private JPanel mainCenterFirstPanel = new JPanel();//"이름"의 라벨&입력창이 있는 패널.
 	private JLabel nameLabel = new JLabel("이름");
-	private JLabel passLabel = new JLabel("비밀번호");
-	private JLabel passChkLabel = new JLabel("비밀번호 확인");
-	private JLabel deptNameLabel = new JLabel("부서명");
-	private JLabel genderLabel = new JLabel("성별");
-	private JLabel emailLabel = new JLabel("이메일");
-	private JLabel telLabel = new JLabel("전화번호");
-	
 	private JTextField inputName = new JTextField(10);
+	private JPanel mainCenterSecondPanel = new JPanel();//"비밀번호" 라벨&입력창이 있는 패널.
+	private JLabel passLabel = new JLabel("비밀번호");
 	private JTextField inputPass = new JTextField(10);
+	private JPanel mainCenterThirdPanel = new JPanel();//"비밀번호 확인" 라벨&입력창이 있는 패널.
+	private JLabel passChkLabel = new JLabel("비밀번호 확인");
 	private JTextField inputPassChk = new JTextField(10);
+	private JPanel mainCenterFourthPanel = new JPanel();//"부서명" 라벨&입력창이 있는 패널.
+	private JLabel deptNameLabel = new JLabel("부서명");
 	private JTextField inputDeptName = new JTextField(10);
+	private JPanel mainCenterFifthPanel = new JPanel();//"성별" 라벨&입력창이 있는 패널.
+	private JLabel genderLabel = new JLabel("성별");
 	private JTextField inputGender = new JTextField(10);
+	private JPanel mainCenterSixPanel = new JPanel();//"이메일" 라벨&입력창이 있는 패널.
+	private JLabel emailLabel = new JLabel("이메일");
 	private JTextField inputEmail = new JTextField(10);
+	private JPanel mainCenterSevenPanel = new JPanel();//"전화번호" 라벨&입력창이 있는 패널.
+	private JLabel telLabel = new JLabel("전화번호");
 	private JTextField inputTel = new JTextField(10);
 	
+	private JPanel mainSouthPanel = new JPanel(); //"취소 & 가입"버튼이 있는 패녈.
+	private JButton cancelBtn = new JButton("취소");//"취소"버튼 생성.
+	private JButton joinBtn = new JButton("가입");//"가입"버튼 생성.
+	
+	//값 저장용 변수.
 	public static String inputDept = null;//사원등록시 입력한 사원번호를 받아올 변수.
+	
 	public JoinFrame(){
 		//mainCenterPanel
-		//mainCenterPanel - Layout
-		mainCenterPanel.setLayout(new GridLayout(7,0));
-		mainCenterFirstPanel.setLayout(new GridLayout());
-		mainCenterSecondPanel.setLayout(new GridLayout());
-		mainCenterThirdPanel.setLayout(new GridLayout());
-		mainCenterFourthPanel.setLayout(new GridLayout());
-		mainCenterFifthPanel.setLayout(new GridLayout());
-		mainCenterSixPanel.setLayout(new GridLayout());
-		mainCenterSevenPanel.setLayout(new GridLayout());
+		mainCenterPanel.setLayout(new GridLayout(7,0)); //mainCenterPanel의 레이아웃 지정. ( 가로:1, 세로:7 )
 		
-		//mainCenterPanel - Add Panel
-		mainCenterPanel.add(mainCenterFirstPanel);
-		mainCenterPanel.add(mainCenterSecondPanel);
-		mainCenterPanel.add(mainCenterThirdPanel);
-		mainCenterPanel.add(mainCenterFourthPanel);
-		mainCenterPanel.add(mainCenterFifthPanel);
-		mainCenterPanel.add(mainCenterSixPanel);
-		mainCenterPanel.add(mainCenterSevenPanel);
-
+		mainCenterFirstPanel.setLayout(new GridLayout());
 		mainCenterFirstPanel.add(nameLabel);
 		mainCenterFirstPanel.add(inputName);
 		mainCenterFirstPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+		mainCenterPanel.add(mainCenterFirstPanel);
 		
+		mainCenterSecondPanel.setLayout(new GridLayout());
 		mainCenterSecondPanel.add(passLabel);
 		mainCenterSecondPanel.add(inputPass);
 		mainCenterSecondPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+		mainCenterPanel.add(mainCenterSecondPanel);
 		
+		mainCenterThirdPanel.setLayout(new GridLayout());
 		mainCenterThirdPanel.add(passChkLabel);
 		mainCenterThirdPanel.add(inputPassChk);
 		mainCenterThirdPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+		mainCenterPanel.add(mainCenterThirdPanel);
 		
+		mainCenterFourthPanel.setLayout(new GridLayout());
 		mainCenterFourthPanel.add(deptNameLabel);
 		mainCenterFourthPanel.add(inputDeptName);
 		mainCenterFourthPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+		mainCenterPanel.add(mainCenterFourthPanel);
 		
+		mainCenterFifthPanel.setLayout(new GridLayout());
 		mainCenterFifthPanel.add(genderLabel);
 		mainCenterFifthPanel.add(inputGender);
 		mainCenterFifthPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+		mainCenterPanel.add(mainCenterFifthPanel);
 		
+		mainCenterSixPanel.setLayout(new GridLayout());
 		mainCenterSixPanel.add(emailLabel);
 		mainCenterSixPanel.add(inputEmail);
 		mainCenterSixPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+		mainCenterPanel.add(mainCenterSixPanel);
 		
+		mainCenterSevenPanel.setLayout(new GridLayout());
 		mainCenterSevenPanel.add(telLabel);
 		mainCenterSevenPanel.add(inputTel);
 		mainCenterSevenPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+		mainCenterPanel.add(mainCenterSevenPanel);
 		
 		//mainSouthPanel
 		mainSouthPanel.setLayout(new FlowLayout());
 		mainSouthPanel.add(cancelBtn);
 		mainSouthPanel.add(joinBtn);
-		
-		cancelBtn.addActionListener(this);
-		joinBtn.addActionListener(this);
 		
 		//JFrame
 		this.setTitle("회원가입");
@@ -115,34 +113,31 @@ public class JoinFrame extends JFrame implements ActionListener{
 		this.setBounds(200, 200, 500, 500);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		//리스너 등록
+		cancelBtn.addActionListener(this);
+		joinBtn.addActionListener(this);
 	}
 
-	   //이메일 정규 표현식 검사.
-	   private boolean isValidEmail(String email) {
-	        // 이메일 유효성 검사 정규표현식
-	        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-	        return email.matches(emailRegex);
-	    }
-	
-	   //전화번호 정규 표현식 검사.
-	   private boolean checkTelNum (String telNum) {
-		   String telRegex = "^\\d{3}-\\d{3,4}-\\d{4}$";
-		   return telNum.matches(telRegex);
-	   }
-	
+   //이메일 정규 표현식 검사.
+   private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email.matches(emailRegex);
+    }
+
+   //전화번호 정규 표현식 검사.
+   private boolean checkTelNum (String telNum) {
+	   String telRegex = "^\\d{3}-\\d{3,4}-\\d{4}$";
+	   return telNum.matches(telRegex);
+   }
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == cancelBtn) {
-			//창 닫는 코드.
+		if(e.getSource() == cancelBtn) {//"취소"버튼 클릭시 action.
 			this.dispose();
 		}
-		if(e.getSource() == joinBtn) {
-			System.out.println();
-			System.out.println("----- JoinFrame 시작 -----");
-			System.out.println();
-			System.out.println("--- 입력한 회원정보를 DB에 저장 시작 ---");
+		if(e.getSource() == joinBtn) {//"가입"버튼 클릭시 action.
 			String empName1 = inputName.getText();//입력한 "사원이름" 텍스트
 			String inputPass1 = inputPass.getText();//입력한 "비밀번호" 텍스트
 			String inputPassChk1 = inputPassChk.getText();//입력한 "비밀번호 확인" 텍스트
@@ -153,7 +148,6 @@ public class JoinFrame extends JFrame implements ActionListener{
 			inputDept = inputDeptName1;
 			System.out.println("전달할 부서명 : " + inputDept);
 			System.out.println( "*** 신입 사원 데이터 *** : " + empName1 + " " + inputPass1 + " " + inputPassChk1 + " " + inputDeptName1 + " " + inputGender1 + " " + inputEmail1 + " " + inputTel1);
-			
 			EmployeeDTO elist = new EmployeeDTO();
 			//비밀번호 확인 기능 시작.
 			if(inputPass1.equals(inputPassChk1)) { 
@@ -163,36 +157,23 @@ public class JoinFrame extends JFrame implements ActionListener{
 				System.out.println("비밀번호 불일치");
 			}
 			//--비밀번호 확인 기능 끝.
+			//신규 사원정보 저장 시작.
 			elist.setName(empName1);//사원이름 정상 입력됨.
 			elist.setDeptName(inputDeptName1);//부서명 정상 입력됨.
 			elist.setGender(inputGender1);//성별 정상 입력됨.
-			
-			
-			
 			if(isValidEmail(inputEmail1)) {
 				elist.setEmail(inputEmail1);//이메일 정상 입력됨.
 			}else {
 				System.out.println("이메일 형식 이상.");
 			}
-			
 			if(checkTelNum(inputTel1)) {
 				elist.setTel(inputTel1);//전화번호 정상 입력됨.
 			}else {
 				System.out.println("전화번호 형식 이상.");
 			}
-			
-			
-			
-			
-			empdao.insert(elist);//EmployeeDAO에 전달
-			System.out.println("--- 입력한 회원정보를 DB에 저장 끝 ---");
-
-			System.out.println();
-			System.out.println("----- JoinFrame 끝 -----");
-			System.out.println();
-			//현재 창 닫기.
+			empdao.insert(elist);//EmployeeDAO에 전달 ---> 신규 가입한 사원의 데이터를 DB에 추가.
+			//--신규 시원정보 저장 끝.
 			this.dispose();
-			//로그인 창으로 이동.
 			new LoginFrame();
 		}
 		

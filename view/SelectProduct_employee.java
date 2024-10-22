@@ -57,9 +57,6 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 		this.nowUserDeptName2 = nowUserDeptName2;
 	}
 
-	
-	
-	
 	//JLabel
 	private JLabel mainNWLabel = new JLabel("제고관리 시스탬_일반사원");
 	private JLabel mainNELabel = new JLabel("xxx부서 xxx로그인 중.");

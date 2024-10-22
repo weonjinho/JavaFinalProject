@@ -30,108 +30,114 @@ import dao.ProductDAO;
 import dto.ProductDTO;
 
 public class ProductFrame_02 extends JFrame implements ActionListener, MouseListener{
-	ProductDAO pdao = new ProductDAO();
-	LoginFrame_02 loginInfo = new LoginFrame_02();
+	//DAO 접근용 변수.
+	private ProductDAO pdao = new ProductDAO();
 	
-	
-	//맨 아레 복쪽.
-	private JPanel mainNorthPanel = new JPanel();
-	//맨 아레 중앙.
-	private JPanel mainCenterPanel = new JPanel();
-	
-	//맨 아레 중앙 왼쪽.
-	private JPanel mainCenterWPanel = new JPanel();
-	//맨 아레 중앙 왼쪽 복쪽.
-	private JPanel mainCenterWNPanel = new JPanel();
-	//맨 아레 중앙 왼쪽 중앙.
-	private JPanel mainCenterWCPanel = new JPanel();
-	
-	//맨 아레 중앙 중앙.
-	private JPanel mainCenterCPanel = new JPanel();
-	//맨 아레 중앙 중앙 북쪽.
-	private JPanel mainCenterCNPanel = new JPanel();
-	
-	
-	private JPanel container2_north = new JPanel();
-	private JPanel container2_center = new JPanel();
-	
-	
-	private JLabel westNorthLabel = new JLabel("Information");
-	private JLabel mainNorthEastLabel = new JLabel();
+	//Swing 배치
+	private JPanel mainNorthPanel = new JPanel();//"mainNorthWestLabel" & "mainNorthEastLabel"이 있는 패널.
 	private JLabel mainNorthWestLabel = new JLabel(" 제고관리 시스탬_관리자");
-	private JLabel mainCWLabel = new JLabel("JTree가 있을 위치");
+	private JLabel mainNorthEastLabel = new JLabel();
 	
+	private JPanel mainCenterPanel = new JPanel();
+	//왼쪽
+	private JPanel mainCenterWPanel = new JPanel();
+	private JPanel mainCenterWNPanel = new JPanel();
+	private JLabel westNorthLabel = new JLabel("Information");
+	private JPanel mainCenterWCPanel = new JPanel();
 	private DefaultMutableTreeNode productMge = new DefaultMutableTreeNode("제고관리");
 	private DefaultMutableTreeNode addProduct = new DefaultMutableTreeNode("제고등록");
 	private DefaultMutableTreeNode productInfotree  = new DefaultMutableTreeNode("제고조회/삭제");
 	
+	//중앙
+	private JPanel mainCenterCPanel = new JPanel();
+	private JTabbedPane tab = new JTabbedPane();
+	
+//	---------------- container1 ---------------------
+	private JPanel container1 = new JPanel();//"제고등록"의 컨테이너.
+	private JPanel mainPanel = new JPanel(); 
+	
+//	---------------- mainCenterPanel2 ---------------------
+	private JPanel mainCenterPanel2 = new JPanel();
+	
+	private JPanel fourthRPanel = new JPanel();
 	private JLabel categoryLabel2 = new JLabel("카테고리");
-//	private JTextField categoryInput = new JTextField(10);
+	private String[] category1 = {"생활가전", "주방가전", "계절가전", "통신용품", "PC 용품"};
+	private JComboBox<String> combobox1 = new JComboBox<String>(category1);
+	
+	private JPanel firstRPanel = new JPanel();
+	private JLabel pNameLabel = new JLabel("제품명");
+	private JTextField pNameInput = new JTextField(10);
+	
+	private JPanel secondLPanel = new JPanel();
+	private JLabel priceLabel = new JLabel("가격");
+	private JTextField priceInput = new JTextField(10);
+	private JPanel secondRPanel = new JPanel();
+	private JLabel stockLabel = new JLabel("제고수량");
+	private JTextField stockInput = new JTextField(10);
+	
+	private JPanel thirdLPanel = new JPanel();
+	private JLabel makerLabel = new JLabel("제조사");
+	private JTextField makerInput = new JTextField(10);
+	
+	private JPanel btnPanel = new JPanel();
+	private JButton addBtn = new JButton("등록");
+	private JButton cancelBtn = new JButton("취소");
+	
+//	---------------- mainSouthPanel ---------------------
+	private JPanel mainSouthPanel = new JPanel();
+	private JPanel panel4 = new JPanel();
+	private JTable dataTable2 = new JTable();
+	private DefaultTableModel model2 = null;
+	
+	private String[] colNames = {"제품번호", "제품명", "입고날짜", "카테고리", "제고수량","제조사","가격"};
+	private String[][] data = new String[50][7];
+	private JScrollPane sp2 = null;
+	
+	private JTable dataTable = new JTable();
+	
+//	---------------- container2 ---------------------
+	private JPanel container2 = new JPanel();//"제고조회/삭제"의 컨테이너.
+	private JPanel container2_north = new JPanel();
+	private JLabel categoryLabel = new JLabel("카테고리");
+
+	private JComboBox<String> combobox2 = new JComboBox<String>(category1);
 	private JLabel searchLabel = new JLabel(" 검색할 제품 번호");
 	private JTextField searchInput = new JTextField(10);
 	private JButton searchBtn = new JButton("검색");
 	private JButton deleteBtn = new JButton("삭제");
 	private JButton outBtn = new JButton("출고");
 	
+	private JPanel container2_center = new JPanel();
+	private JPanel panel3 = new JPanel();
+	private JScrollPane sp = null;
+	
 	private JLabel table = new JLabel("JTable_panel의 위치입니다.");
 	private JPanel tablePanel = new JPanel();//JTable를 만든 뒤 이 panel위에 올립니다.
 	private String[] productInfo = {"제품번호", "제품명", "제고수량", "입고날짜", "제품가격", "카테고리"};
 	
-	private String[] category1 = {"생활가전", "주방가전", "계절가전", "통신용품", "PC 용품"};
-
-	
-	private JComboBox<String> combobox1 = new JComboBox<String>(category1);
-	private JComboBox<String> combobox2 = new JComboBox<String>(category1);
-	
-	private JPanel mainPanel = new JPanel(); 
-	private JPanel mainCenterPanel2 = new JPanel();
-	private JPanel mainSouthPanel = new JPanel();
-	
-	private JPanel firstLPanel = new JPanel();
-	private JPanel firstRPanel = new JPanel();
-	private JPanel secondLPanel = new JPanel();
-	private JPanel secondRPanel = new JPanel();
-	private JPanel thirdLPanel = new JPanel();
-	private JPanel thirdRPanel = new JPanel();
-	private JPanel fourthLPanel = new JPanel();
-	private JPanel fourthRPanel = new JPanel();
-	
 	private JLabel pNumLabel = new JLabel("제품번호");
-	private JLabel categoryLabel = new JLabel("카테고리");
-	private JLabel pNameLabel = new JLabel("제품명");
-	private JLabel priceLabel = new JLabel("가격");
-	private JLabel stockLabel = new JLabel("제고수량");
-	private JLabel makerLabel = new JLabel("제조사");
+	
 	private JLabel indateLabel = new JLabel("입고날짜");
 	
 	private JTextField pNumInput = new JTextField(10);
-	private JTextField pNameInput = new JTextField(10);
-	private JTextField priceInput = new JTextField(10);
-	private JTextField stockInput = new JTextField(10);
-	private JTextField makerInput = new JTextField(10);
+	
 	private JTextField indateInput = new JTextField(10);
 	
-	private JTable dataTable = new JTable();
-	private JTable dataTable2 = new JTable();
-	private DefaultTableModel model2 = null;
-	private String[] colNames = {"제품번호", "제품명", "입고날짜", "카테고리", "제고수량","제조사","가격"};
-	private String[][] data = new String[50][7];
-	private JPanel panel3 = new JPanel();
-	private JPanel panel4 = new JPanel();
-	private JScrollPane sp = null;
-	private JScrollPane sp2 = null;
 	private Dimension d = null;
-
-	private JButton addBtn = new JButton("등록");
-	private JButton cancelBtn = new JButton("취소");
-	private JPanel btnPanel = new JPanel();
+	private Dimension d2 = null;
 	
+	//값을 저장할 변수.
 	private String empName = null;
 	private String nowDeptName = null;
+	public static String  selectedCategory = null;
+	private Object bbb = null;
+	private int selectedRow = 0;
+	private String strPnum = null;
+	
+	//Getter/Setter
 	public String getEmpName() {
 		return empName;
 	}
-
 	public void setEmpName(String empName) {
 		this.empName = empName;
 	}
@@ -139,15 +145,9 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 	public String getNowDeptName() {
 		return nowDeptName;
 	}
-
 	public void setNowDeptName(String nowDeptName) {
 		this.nowDeptName = nowDeptName;
 	}
-
-	public static String  selectedCategory = null;
-	private Object bbb = null;
-	private String strPnum = null;
-	
 	
 	
 	public void ProductFrame_02() {
@@ -175,19 +175,17 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		JTree jt = new JTree(productMge);
 		mainCenterWCPanel.add(jt);
 		
-		
 		mainNorthPanel.add(mainNorthWestLabel,"West");
 		mainNorthPanel.add(mainNorthEastLabel,"East");
 		mainCenterPanel.add(mainCenterWPanel,"West");
 		mainCenterWPanel.add(mainCenterWNPanel,"North");
 		mainCenterWPanel.add(mainCenterWCPanel,"Center");
 		mainCenterPanel.add(mainCenterCPanel,"Center");
-		mainCenterCPanel.add(mainCenterCNPanel,"North");
 // -----------------------------------------------------------------------------		
 		//탭 생성 ---> 컨테이너 생성 ---> 컴포넌트 생성 ---> 컴포넌트를 컨테이너에 추가.
-		JTabbedPane tab = new JTabbedPane();
-		JPanel container1 = new JPanel();
-		JPanel container2 = new JPanel();
+//		JTabbedPane tab = new JTabbedPane();
+//		JPanel container1 = new JPanel();
+//		JPanel container2 = new JPanel();
 		
 		//container1 --- 제품등록
 		//카테고리 : combobox
@@ -203,24 +201,16 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		mainPanel.add(mainCenterPanel2,"Center");
 		mainPanel.add(mainSouthPanel,"South");
 		
-		firstLPanel.setLayout(new FlowLayout());
 		firstRPanel.setLayout(new FlowLayout());
 		secondLPanel.setLayout(new FlowLayout());
 		secondRPanel.setLayout(new FlowLayout());
 		thirdLPanel.setLayout(new FlowLayout());
-		thirdRPanel.setLayout(new FlowLayout());
-		fourthLPanel.setLayout(new FlowLayout());
 		fourthRPanel.setLayout(new FlowLayout());
-//		btnPanel.setLayout(new FlowLayout());
 		
 //		카테고리
-//		fourthLPanel.add(categoryLabel2);
 		fourthRPanel.add(categoryLabel2);
 		fourthRPanel.add(combobox1);
 		
-//		제품번호
-//		firstLPanel.add(pNumLabel);
-//		firstLPanel.add(pNumInput);
 //		제품명
 		firstRPanel.add(pNameLabel);
 		firstRPanel.add(pNameInput);
@@ -233,9 +223,6 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 //		제조사
 		thirdLPanel.add(makerLabel);
 		thirdLPanel.add(makerInput);
-//		입고날짜
-		thirdRPanel.add(indateLabel);
-		thirdRPanel.add(indateInput);
 		
 		//"등록" & "취소"버튼
 		btnPanel.add(addBtn);
@@ -269,20 +256,28 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		
 		//탭 이름 지정.
 		tab.add("제고등록",container1);
-		tab.add("제고조회/변경",container2);
+		tab.add("제고조회/삭제",container2);
 		
 		mainCenterCPanel.add(tab);
 		mainSouthPanel.add(panel4);
+		
 		model2 = new DefaultTableModel(colNames,0);
 		dataTable = new JTable(model2);
 		dataTable2 = new JTable(model2);
+		
 		sp = new JScrollPane(dataTable);//table를 JScrollPane에 붙이는 코드.
 		sp2 = new JScrollPane(dataTable2);//table를 JScrollPane에 붙이는 코드.
-		sp.setBackground(Color.cyan);
+		
 		dataTable.setFillsViewportHeight(true);
 		d = dataTable.getPreferredSize();
 		d.width = 800;
 		d.height = 650;
+		
+		d2 = dataTable2.getPreferredSize();//"제고등록 table"
+		d2.width = 700;
+		d2.height = 500;
+		sp2.setPreferredSize(d2);
+		
 		sp.setPreferredSize(d);//JScrollPane 사이즈 지정.
 		panel3.add(sp);
 		panel4.add(sp2);
@@ -306,21 +301,79 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		//리스너 등록
-		addBtn.addActionListener(this);
+		
+		//제품등록
+		addBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				selectedCategory = combobox1.getSelectedItem().toString();
+				ProductDTO pdto = new ProductDTO();
+				pdto.setCategory(combobox1.getSelectedItem().toString());
+				pdto.setPname(pNameInput.getText());
+				pdto.setPrice(Integer.parseInt(priceInput.getText()));
+				pdto.setStock(Integer.parseInt(stockInput.getText()));
+				pdto.setMaker(makerInput.getText());
+				MakeProductNum mp = new MakeProductNum();
+				String pnum = mp.getProductNum(); // 메소드 호출해서 받아올값.
+				mp = null;//자원 반납.
+				pdao.insert(pdto,pnum);
+				ProductDTO p = pdao.selectOne(pnum);
+				String[] rowData;
+				rowData= new String[] {p.getPnum(),p.getPname(),p.getIndate(), p.getCategory(),Integer.toString(p.getStock()), p.getMaker(), Integer.toString(p.getPrice())};
+				model2.addRow(rowData);
+			}
+		});
 		cancelBtn.addActionListener(this);
 		combobox1.addActionListener(this);//combobox actionListener
 		combobox2.addActionListener(this);//combobox actionListener
 		searchBtn.addActionListener(this);//검색 버튼 actionListener
-		outBtn.addActionListener(this);//변경 버튼 actionListener
-		deleteBtn.addActionListener(this);//삭제 버튼 actionListener
+		
+		//제품출고
+		outBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("출고");
+				ProductDTO pdto = pdao.selectOne(strValue());
+				String pnum = pdto.getPnum();
+				pdto = null;
+				pdao.update2(pnum);//DB에 접근, 수정된 제고수량 가져옴.
+				ProductDTO a = pdao.selectOne(strValue());
+				int changedRow2 = selectedRow;
+				int changedColumn = 4;
+				System.out.println(model2.getColumnName(changedColumn));
+				int kstock = a.getStock();
+				System.out.println("남은 제고 : " + kstock);
+			}
+		});
+		
+		//제품삭제
+		deleteBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				pdao.delete(strValue());
+				model2.removeRow(selectedRow);
+			}
+		});
+		
+		//마우스 이벤트 추가.
 		dataTable.addMouseListener(this);
+		dataTable2.addMouseListener(this);
+		
+		
+		
+		System.out.println("table 사이즈 : " + dataTable.getSize());//"제고조회/삭제"
+		System.out.println("table2 사이즈 : " + dataTable2.getSize());//"제고등록"
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String selected = combobox2.getSelectedItem().toString();
-		// 제품번호로 검색하는 기능.
+		// 제품번호로 검색 기능.
 		if(e.getSource() == searchBtn) {
 			String input = searchInput.getText();
 			System.out.println("입력한 내용 : " + input + " / " + selected);
@@ -333,61 +386,21 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 			String maker = plist.getMaker();
 			String indate = plist.getIndate();
 			System.out.println(pnum + " " + pcategory + " " +  pname + " " +  price + " " +  stock + " " +  maker + " " +  indate);
-			
 		}
 		//"출고"버튼 엑션
-		if(e.getSource() == outBtn) {
-			//"출고"버튼 클릭 후 DB에서도 제고 수량을 update 해야한다.
-			System.out.println("출고");
-			ProductDTO pdto = pdao.selectOne(strValue());
-			String pnum = pdto.getPnum();
-//			String pname = pdto.getPname();
-//			int price = pdto.getPrice();
-//			int calStock = (pdto.getStock())-1;
-//			String pmaker = pdto.getMaker();
-//			System.out.println("번호 : " + pnum + " 카테고리 : " + category + " 제품명 : " + pname + " 가격 : " + price + " 제고 수량 : " + calStock + " 제조사 : " + pmaker);
-			pdto = null;
-//			String category = pdto.getCategory();
-			
-			pdao.update2(pnum);
-			
-			ProductDTO a = pdao.selectOne(strValue());
-			int kstock = a.getStock();
-			System.out.println("남은 제고 : " + kstock);
-		}
-		if(e.getSource() == deleteBtn) {
-			ProductDAO pdao = new ProductDAO();
-			pdao.delete(selNum());
-		}
-		if(e.getSource() == addBtn) {
-			String category = combobox1.getSelectedItem().toString();
-			selectedCategory = combobox1.getSelectedItem().toString();
-			String pNum = pNumInput.getText();
-			String pName = pNameInput.getText();
-			int price = Integer.parseInt(priceInput.getText());
-			int stock = Integer.parseInt(stockInput.getText());
-			String maker = makerInput.getText();
-			GetNowDate date = new GetNowDate();
-			String indate = date.GetNowDate();// 메소드 호출해서 현재 날짜 기져오기.
-			
-			System.out.println(pNum + " / " + pName + " / " + price + " / " + stock + " / " + maker + " / " + indate);
-			
-			ProductDTO pdto = new ProductDTO();
-			pdto.setCategory(category);
-			pdto.setPnum(pNum);
-			pdto.setPname(pName);
-			pdto.setPrice(price);
-			pdto.setStock(stock);
-			pdto.setMaker(maker);
-			pdto.toString();
-			MakeProductNum mp = new MakeProductNum();
-			String pnum = mp.getProductNum(); // 메소드 호출해서 받아올값.
-			mp = null;
-			pdao.insert(pdto,pnum);
-			pdto = null;
-			//새로운 값이 제품이 등록될때 마다 list를 새로고침 하는 코드. ---> 화면 껐다 다시 실행.
-			new ProductFrame_02();
-		}
+//		if(e.getSource() == outBtn) {
+//			//"출고"버튼 클릭 후 DB에서도 제고 수량을 update 해야한다.
+//			System.out.println("출고");
+//			ProductDTO pdto = pdao.selectOne(strValue());
+//			String pnum = pdto.getPnum();
+//			pdto = null;
+//			pdao.update2(pnum);
+//			ProductDTO a = pdao.selectOne(strValue());
+//			int kstock = a.getStock();
+//			System.out.println("남은 제고 : " + kstock);
+//		}
+		
+		//"취소"버튼
 		if(e.getSource() == cancelBtn) {
 			this.dispose();
 		}
@@ -396,19 +409,20 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		int row = dataTable.getSelectedRow();
-		Object aaa = dataTable.getValueAt(row, 0);
+		selectedRow = dataTable.getSelectedRow();
+		Object aaa = dataTable.getValueAt(selectedRow, 0);
 		System.out.println("선택된 row의 내용 : " + aaa);
+		
+//		int row2 = dataTable2.getSelectedRow();
+//		Object aaa2 = dataTable2.getValueAt(row2, 0);
+//		System.out.println("제고등록에서 선택된 값 : " + aaa2);
+	
 		bbb = aaa;//마우스 클릭된 row의 제품번호만 리턴.
 	}
-
-	
 	
 	public Object selNum() {
 		return bbb;
 	}
-	
-	
 	public String strValue() {
 		strPnum = bbb.toString();
 		return strPnum;
