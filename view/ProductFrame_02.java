@@ -327,12 +327,28 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		cancelBtn.addActionListener(this);
 		combobox1.addActionListener(this);//combobox actionListener
 		combobox2.addActionListener(this);//combobox actionListener
-		searchBtn.addActionListener(this);//검색 버튼 actionListener
+		
+//		searchBtn.addActionListener(this);//검색 버튼 actionListener
+		searchBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				model2.setRowCount(0);
+				ProductDTO a = pdao.selectOne(searchInput.getText());
+				String[] data = {a.getPnum(), a.getPname(), a.getIndate(), a.getCategory(), Integer.toString(a.getStock()), a.getMaker(), Integer.toString(a.getPrice())};
+				model2.addRow(data);
+			}
+		});//검색 버튼 actionListener
 		
 		//제품출고
 		outBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				model2.setRowCount(0);
+				
+				
 				// TODO Auto-generated method stub
 				System.out.println("출고");
 				ProductDTO pdto = pdao.selectOne(strValue());
@@ -342,9 +358,17 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 				ProductDTO a = pdao.selectOne(strValue());
 				int changedRow2 = selectedRow;
 				int changedColumn = 4;
-				System.out.println(model2.getColumnName(changedColumn));
+//				System.out.println(model2.getColumnName(changedColumn));
 				int kstock = a.getStock();
 				System.out.println("남은 제고 : " + kstock);
+				
+				
+				
+				ArrayList<ProductDTO> plist = pdao.selectAll();
+				for(ProductDTO i : plist) {
+					String[] data = {i.getPnum(), i.getPname(), i.getIndate(), i.getCategory(), Integer.toString(i.getStock()), i.getMaker(), Integer.toString(i.getPrice())};
+					model2.addRow(data);
+				}
 			}
 		});
 		
@@ -362,8 +386,6 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		dataTable.addMouseListener(this);
 		dataTable2.addMouseListener(this);
 		
-		
-		
 		System.out.println("table 사이즈 : " + dataTable.getSize());//"제고조회/삭제"
 		System.out.println("table2 사이즈 : " + dataTable2.getSize());//"제고등록"
 		
@@ -374,19 +396,19 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		// TODO Auto-generated method stub
 		String selected = combobox2.getSelectedItem().toString();
 		// 제품번호로 검색 기능.
-		if(e.getSource() == searchBtn) {
-			String input = searchInput.getText();
-			System.out.println("입력한 내용 : " + input + " / " + selected);
-			ProductDTO plist = pdao.selectOne(input);
-			String pnum = plist.getPnum();
-			String pcategory = plist.getCategory();
-			String pname = plist.getPname();
-			int price = plist.getPrice();
-			int stock = plist.getStock();
-			String maker = plist.getMaker();
-			String indate = plist.getIndate();
-			System.out.println(pnum + " " + pcategory + " " +  pname + " " +  price + " " +  stock + " " +  maker + " " +  indate);
-		}
+//		if(e.getSource() == searchBtn) {
+//			String input = searchInput.getText();
+//			System.out.println("입력한 내용 : " + input + " / " + selected);
+//			ProductDTO plist = pdao.selectOne(input);
+//			String pnum = plist.getPnum();
+//			String pcategory = plist.getCategory();
+//			String pname = plist.getPname();
+//			int price = plist.getPrice();
+//			int stock = plist.getStock();
+//			String maker = plist.getMaker();
+//			String indate = plist.getIndate();
+//			System.out.println(pnum + " " + pcategory + " " +  pname + " " +  price + " " +  stock + " " +  maker + " " +  indate);
+//		}
 		//"출고"버튼 엑션
 //		if(e.getSource() == outBtn) {
 //			//"출고"버튼 클릭 후 DB에서도 제고 수량을 update 해야한다.
