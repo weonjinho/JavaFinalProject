@@ -1,6 +1,6 @@
-package MakeData;
+package makeData;
 
-import view.ProductFrame_02;
+import view.ManagerFrame;
 
 public class MakeProductNum {
 	//제품번호 : 대분류 + 5자리 숫자.
@@ -11,9 +11,9 @@ public class MakeProductNum {
 	//4.통신용품 : 004
 	//5.PC용품 : 005
 	private String productNum = null;
-	private Create_Ramdom_Number a = new Create_Ramdom_Number();
+	private CreateRamdomNumber a = new CreateRamdomNumber();
 	public MakeProductNum(){
-		ProductFrame_02 pf = new ProductFrame_02();
+		ManagerFrame pf = new ManagerFrame();
 		String categoryCode = null;
 		String mainCategory = pf.selectedCategory; // static -- ProductFrame_02
 		if(mainCategory.equals("생활가전")) {

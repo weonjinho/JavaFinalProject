@@ -136,6 +136,7 @@ public class JoinFrame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == cancelBtn) {//"취소"버튼 클릭시 action.
 			this.dispose();
+			new LoginFrame();
 		}
 		if(e.getSource() == joinBtn) {//"가입"버튼 클릭시 action.
 			String empName1 = inputName.getText();//입력한 "사원이름" 텍스트

@@ -114,6 +114,7 @@ public class FindPassFrame extends JFrame implements ActionListener{
 		if(e.getSource() == cancelBtn) { //"취소"버튼 클릭시 발생하는 action.
 			System.out.println("취소 버튼 클릭");
 			this.dispose();
+			new LoginFrame();
 		}
 		
 		if(e.getSource() == changeBtn) { //"변경" 버튼 클릭시 발생하는 action.
@@ -130,6 +131,8 @@ public class FindPassFrame extends JFrame implements ActionListener{
 			}else {
 				System.out.println("비밀번호 불일치");
 			}
+			this.dispose();
+			new LoginFrame();
 		}
 	}
 }

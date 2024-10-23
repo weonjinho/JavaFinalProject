@@ -24,32 +24,46 @@ import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import MakeData.GetNowDate;
-import MakeData.MakeProductNum;
 import dao.ProductDAO;
 import dto.ProductDTO;
+import makeData.GetNowDate;
+import makeData.MakeProductNum;
 
-public class ProductFrame_02 extends JFrame implements ActionListener, MouseListener{
+public class ManagerFrame extends JFrame implements ActionListener, MouseListener{
 	//DAO 접근용 변수.
 	private ProductDAO pdao = new ProductDAO();
 	
 	//Swing 배치
-	private JPanel mainNorthPanel = new JPanel();//"mainNorthWestLabel" & "mainNorthEastLabel"이 있는 패널.
+	//"mainNorthWestLabel" & "mainNorthEastLabel"이 있는 패널.
+	
+	
+	private JPanel mainNorthPanel = new JPanel();
+	private JPanel mainCenterPanel = new JPanel();
+	
+	
 	private JLabel mainNorthWestLabel = new JLabel(" 제고관리 시스탬_관리자");
 	private JLabel mainNorthEastLabel = new JLabel();
 	
-	private JPanel mainCenterPanel = new JPanel();
 	//왼쪽
+	
 	private JPanel mainCenterWPanel = new JPanel();
+	private JPanel mainCenterCPanel = new JPanel();
+	
+	
+	
 	private JPanel mainCenterWNPanel = new JPanel();
-	private JLabel westNorthLabel = new JLabel("Information");
 	private JPanel mainCenterWCPanel = new JPanel();
+	
+	//JLabel
+	private JLabel westNorthLabel = new JLabel("Information");
+	//JTree
 	private DefaultMutableTreeNode productMge = new DefaultMutableTreeNode("제고관리");
 	private DefaultMutableTreeNode addProduct = new DefaultMutableTreeNode("제고등록");
 	private DefaultMutableTreeNode productInfotree  = new DefaultMutableTreeNode("제고조회/삭제");
 	
+	
+	
 	//중앙
-	private JPanel mainCenterCPanel = new JPanel();
 	private JTabbedPane tab = new JTabbedPane();
 	
 //	---------------- container1 ---------------------
@@ -72,6 +86,7 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 	private JLabel priceLabel = new JLabel("가격");
 	private JTextField priceInput = new JTextField(10);
 	private JPanel secondRPanel = new JPanel();
+	
 	private JLabel stockLabel = new JLabel("제고수량");
 	private JTextField stockInput = new JTextField(10);
 	
@@ -81,7 +96,7 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 	
 	private JPanel btnPanel = new JPanel();
 	private JButton addBtn = new JButton("등록");
-	private JButton cancelBtn = new JButton("취소");
+	private JButton cancelBtn = new JButton("등록취소");
 	
 //	---------------- mainSouthPanel ---------------------
 	private JPanel mainSouthPanel = new JPanel();
@@ -106,6 +121,7 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 	private JButton searchBtn = new JButton("검색");
 	private JButton deleteBtn = new JButton("삭제");
 	private JButton outBtn = new JButton("출고");
+	private JButton backBtn = new JButton("뒤로가기");
 	
 	private JPanel container2_center = new JPanel();
 	private JPanel panel3 = new JPanel();
@@ -167,9 +183,9 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 //		mainSouthPanel.setBackground(Color.green);
 //		container2_center.setBackground(Color.blue);
 		
-		
+		//JLabel
 		mainCenterWNPanel.add(westNorthLabel);
-		
+		//JTree
 		productMge.add(addProduct);
 		productMge.add(productInfotree);
 		JTree jt = new JTree(productMge);
@@ -177,9 +193,11 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		
 		mainNorthPanel.add(mainNorthWestLabel,"West");
 		mainNorthPanel.add(mainNorthEastLabel,"East");
-		mainCenterPanel.add(mainCenterWPanel,"West");
+		
 		mainCenterWPanel.add(mainCenterWNPanel,"North");
 		mainCenterWPanel.add(mainCenterWCPanel,"Center");
+		
+		mainCenterPanel.add(mainCenterWPanel,"West");
 		mainCenterPanel.add(mainCenterCPanel,"Center");
 // -----------------------------------------------------------------------------		
 		//탭 생성 ---> 컨테이너 생성 ---> 컴포넌트 생성 ---> 컴포넌트를 컨테이너에 추가.
@@ -247,6 +265,10 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		container2_north.add(searchBtn);
 		container2_north.add(deleteBtn);
 		container2_north.add(outBtn);
+		
+		container2_north.add(backBtn);
+		backBtn.setVisible(false);
+		
 		container2.add(container2_north,"North");
 		
 		//JTable 삽입 부분. table ---> tablePanel
@@ -293,8 +315,12 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		mainNorthEastLabel.setText(getNowDeptName() + " " + getEmpName()+" 사용중. ");
 		
 		//JFrame
+		
 		this.add(mainNorthPanel,"North");
 		this.add(mainCenterPanel,"Center");
+		
+		
+		
 		this.setTitle("제품관리창_관리자");
 		this.setBounds(50, 100, 1000, 800);
 		this.setVisible(true);
@@ -338,6 +364,22 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 				ProductDTO a = pdao.selectOne(searchInput.getText());
 				String[] data = {a.getPnum(), a.getPname(), a.getIndate(), a.getCategory(), Integer.toString(a.getStock()), a.getMaker(), Integer.toString(a.getPrice())};
 				model2.addRow(data);
+				backBtn.setVisible(true);
+				backBtn.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						model2.setRowCount(0);
+						ArrayList<ProductDTO> plist = pdao.selectAll();
+						for(ProductDTO i : plist) {
+							String[] data = {i.getPnum(), i.getPname(), i.getIndate(), i.getCategory(), Integer.toString(i.getStock()), i.getMaker(), Integer.toString(i.getPrice())};
+							model2.addRow(data);
+						}
+						backBtn.setVisible(false);
+						searchInput.setText("");
+					}
+				});
 			}
 		});//검색 버튼 actionListener
 		
@@ -348,7 +390,6 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 				
 				model2.setRowCount(0);
 				
-				
 				// TODO Auto-generated method stub
 				System.out.println("출고");
 				ProductDTO pdto = pdao.selectOne(strValue());
@@ -358,11 +399,8 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 				ProductDTO a = pdao.selectOne(strValue());
 				int changedRow2 = selectedRow;
 				int changedColumn = 4;
-//				System.out.println(model2.getColumnName(changedColumn));
 				int kstock = a.getStock();
 				System.out.println("남은 제고 : " + kstock);
-				
-				
 				
 				ArrayList<ProductDTO> plist = pdao.selectAll();
 				for(ProductDTO i : plist) {
@@ -424,7 +462,11 @@ public class ProductFrame_02 extends JFrame implements ActionListener, MouseList
 		
 		//"취소"버튼
 		if(e.getSource() == cancelBtn) {
-			this.dispose();
+			combobox1.setSelectedIndex(0);
+			pNameInput.setText("");
+			priceInput.setText("");
+			stockInput.setText("");
+			makerInput.setText("");
 		}
 	}
 

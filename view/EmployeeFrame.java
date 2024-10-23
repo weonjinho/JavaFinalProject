@@ -23,7 +23,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import dao.ProductDAO;
 import dto.ProductDTO;
 
-public class SelectProduct_employee extends JFrame implements ActionListener{
+public class EmployeeFrame extends JFrame implements ActionListener{
 	ProductDAO pdao = new ProductDAO();
 	//JPanel
 	private JPanel mainNorthPanel = new JPanel();
@@ -38,6 +38,7 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 	private JPanel containerNPanel = new JPanel();
 	private JPanel containerCPanel = new JPanel();
 	private JPanel mainTabPanel = new JPanel();
+	
 	
 	private String nowUserName2 = null;
 	public String getNowUserName2() {
@@ -86,8 +87,8 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 	private JTextField pNameSearchInput = new JTextField(10);
 	
 	//JButton
-	private JButton searchBtn = new JButton("조회");
-	
+	private JButton searchBtn = new JButton("검색");
+	private JButton backBtn = new JButton("뒤로가기");
 	
 	//JTable
 	private JTable dataTable = new JTable();
@@ -101,7 +102,7 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 	//JTabbedPane
 	private JTabbedPane tab = new JTabbedPane();
 	
-	public SelectProduct_employee() {
+	public EmployeeFrame() {
 		//배경색
 //		mainNorthPanel.setBackground(Color.green);
 //		mainCenterPanel.setBackground(Color.yellow);
@@ -121,7 +122,7 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 		//mainNWPanel
 		mainNWPanel.add(mainNWLabel);
 		//mainNEPanel
-		mainNELabel.setText(nowUserDeptName2 + " " + nowUserName2 + "사용중. ");
+		mainNELabel.setText("생활가전부" + " " + "홍길동" + " 사용중. ");
 		mainNEPanel.add(mainNELabel);
 		
 		
@@ -153,9 +154,11 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 		containerNPanel.add(categoryList);
 		containerNPanel.add(pNumSearchLabel);
 		containerNPanel.add(pNumSearchInput);
-		containerNPanel.add(pNameSearchLabel);
-		containerNPanel.add(pNameSearchInput);
+//		containerNPanel.add(pNameSearchLabel);
+//		containerNPanel.add(pNameSearchInput);
 		containerNPanel.add(searchBtn);
+		containerNPanel.add(backBtn);
+		backBtn.setVisible(false);
 		
 		
 		//mainCenterCPanel
@@ -198,35 +201,43 @@ public class SelectProduct_employee extends JFrame implements ActionListener{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		//리스터 등록
-		searchBtn.addActionListener(this);
+		searchBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				model2.setRowCount(0);
+				ProductDTO a = null;
+				a = pdao.selectOne(pNumSearchInput.getText());
+				String[] data = {a.getPnum(), a.getPname(), a.getIndate(), a.getCategory(), Integer.toString(a.getStock()), a.getMaker(), Integer.toString(a.getPrice())};
+				model2.addRow(data);
+				backBtn.setVisible(true);
+				backBtn.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						pNumSearchInput.setText("");
+						model2.setRowCount(0);
+						ArrayList<ProductDTO> plist = pdao.selectAll();
+						for(ProductDTO i : plist) {
+							String[] data = {i.getPnum(), i.getPname(), i.getIndate(), i.getCategory(), Integer.toString(i.getStock()), i.getMaker(), Integer.toString(i.getPrice())};
+							model2.addRow(data);
+						}
+						backBtn.setVisible(false);
+						searchInput.setText("");
+					}
+				});
+			}
+		});//검색 버튼 actionListener
+		
+		
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		String selected = categoryList.getSelectedItem().toString();
-		String inputPName = pNameSearchInput.getText();
-		String inputPNum = pNumSearchInput.getText();
-		if(e.getSource() == searchBtn) {
-			System.out.println("111");
-			System.out.println(selected + " / " + inputPName + " / " + inputPNum);
-			ProductDTO plists = new ProductDTO();
-			plists = pdao.selectOne(inputPNum);
-			String pnum = plists.getPnum();//제품번호
-			String pcategory = plists.getCategory();//카테고리
-			String pname = plists.getPname();//제품명
-			int price = plists.getPrice();//가격
-			int stock = plists.getStock();//제고수량
-			String maker = plists.getMaker();//제조사
-			//"조회"하면 list에 출력할 내용.
-			System.out.println("가져온 제품의 정보 : " + pnum + " " + pcategory + " " + pname + " " + price + " " + stock + " " + maker);
-			ProductDTO plist = new ProductDTO();
-			plist.setCategory(selected);
-			plist.setPname(inputPName);
-			plist.setPnum(inputPNum);
-			ProductDTO pp =  pdao.selectOne2(plist);
-			pp.toString();
-		}
 		
 	}
 }

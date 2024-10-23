@@ -1,14 +1,11 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Scanner;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,166 +16,153 @@ import dao.EmployeeDAO;
 import dto.EmployeeDTO;
 
 public class LoginFrame extends JFrame implements ActionListener{
-	EmployeeDAO empdao = new EmployeeDAO();
-//	ProductFrame_02 pf = new ProductFrame_02();
-	private JPanel mainCenterPanel = new JPanel();
-	private JPanel mainSouthPanel = new JPanel();
-	private JPanel mainCLeftPanel = new JPanel();
-	private JPanel mainCCenterPanel = new JPanel();
-	private JPanel mainCRightPanel = new JPanel();
-	private JButton findPassBtn = new JButton("비밀번호 찾기");
-	private JButton joinBtn = new JButton("회원가입");
+	private EmployeeDAO empdao = new EmployeeDAO();
+	
+	//Swing 관련 멤버변수
+	private JPanel mainPanel = new JPanel();//모든 패널을 담을 매인 패널.
+	
+	private JLabel titleLabel = new JLabel("로그인");
+	private JPanel titlePanel = new JPanel();//"로그인"이라는 제목이 위치한 패널.
+	
+	private JLabel idLable = new JLabel("아이디 : ");//"아이디"라벨
+	private JTextField idInput = new JTextField(10);//"아이디" 입력창.
+	private JPanel idPanel = new JPanel();//"아이디"라벨 & "아이디"입력창이 위치한 패널.
+	
+	private JLabel passLabel = new JLabel("비밀번호 : ");//"비밀번호"라벨
+	private JTextField passInput = new JTextField(10);//"비밀번호" 입력창.
+	private JPanel passPanel = new JPanel();//"비밀번호"라벨 & "비밀번호"입력창이 위치한 패널.
+	
 	private JButton loginBtn = new JButton("로그인");
-	private JLabel labelId = new JLabel("아이디");
-	private JLabel labelPass = new JLabel("비밀번호");
-	private JTextField inputId = new JTextField(10);
-	private JTextField inputPass = new JTextField(10);
-	private String inputId2 = null;
-	private String inputPass2 = null;
-	private String nowUserName = null;
-	private String nowUserDept = null;
-
-
-
-	public void setNowUserName(String nowUserName) {
-		this.nowUserName = nowUserName;
-	}
-
-
-
-
+	private JPanel loginBtnPanel = new JPanel();//"로그인"버튼이 위치한 패널.
+	
+	private JButton findPassBtn = new JButton("비밀번호 찾기");
+	private JButton joinBtn = new JButton("신규등록");
+	private JPanel btnPanel = new JPanel();//"비밀번호 찾기", "신규등록"버튼이 위치한 패널.
+	
+	//값 저장 용 멤버변수.
+	private String inputId = null;	//입력한 id를 받아 저장할 변수.
+	private String inputPass = null; //입력한 password를 받아 저장할 변수.
+	private String nowUserName = null; //현재 사용자 이름을 받아 저장할 변수.
+	private String nowUserDept = null; //현재 사용자의 부서명을 받아 저장할 변수.
+	
+	//Getter/Setter
 	public String getNowUserName() {
 		return nowUserName;
 	}
-
-
-
-
+	public void setNowUserName(String nowUserName) {
+		this.nowUserName = nowUserName;
+	}
+	
 	public LoginFrame(){
-		//BackgroundColor
-		mainCenterPanel.setLayout(new GridLayout(0,3));
-		mainCenterPanel.add(mainCLeftPanel);
-		mainCenterPanel.add(mainCCenterPanel);
-		mainCenterPanel.add(mainCRightPanel);
+		mainPanel.setLayout(new GridLayout(5, 0));//메인 패널의 layout 지정. ( 가로:5, 세로:1 )
+		titlePanel.add(titleLabel);//"titleLabel"를 "titlePanel"에 부착.
+		mainPanel.add(titlePanel); //"titlePanel"를 "mainPanel"에 부착.
 		
-		mainSouthPanel.setLayout(new GridLayout(0,2));
-		mainSouthPanel.add(findPassBtn);
-		mainSouthPanel.add(joinBtn);
+		idPanel.setLayout(new FlowLayout());//"idPanel"의 layout 지정.
+	
+		idPanel.add(idLable);//"idLable"를 "idPanel"에 부착.
+		idPanel.add(idInput);//"idInput"를 "idPanel"에 부착.
+		mainPanel.add(idPanel);//"idPanel"를 "mainPanel"에 부착.
 		
-		mainCLeftPanel.setLayout(new GridLayout(2, 0));
-		mainCLeftPanel.add(labelId);
-		mainCLeftPanel.add(labelPass);
+		passPanel.setLayout(new FlowLayout());//"passPanel"의 layout 지정.
+		passPanel.add(passLabel);//"passLabel"를 "passPanel"에 부착.
+		passPanel.add(passInput);//"passInput"를 "passPanel"에 부착.
+		mainPanel.add(passPanel);//"passPanel"를 "mainPanel"에 부착.
 		
-		mainCCenterPanel.setLayout(new GridLayout(2,0));
-		mainCCenterPanel.add(inputId);
-		mainCCenterPanel.add(inputPass);
+		loginBtnPanel.add(loginBtn);//"로그인"버튼을 "로그인 버튼 패널"에 부착.
+		mainPanel.add(loginBtnPanel);//"로그인 버튼 패널"을 메인패널에 부착.
 		
-		System.out.println(loginBtn.getPreferredSize());
-		loginBtn.setPreferredSize(new Dimension(100, 70));
+		btnPanel.setLayout(new FlowLayout());//"비밀번호 버튼" & "신규등록 버튼"이 위치한 패널의 layout 지정.
+		btnPanel.add(findPassBtn);//"비밀번호 버튼"을 버튼 패널에 부착.
+		btnPanel.add(joinBtn);//"신규등록 버튼"을 버튼 패널에 부착.
+		mainPanel.add(btnPanel);//"버튼 패널"을 메인 패널에 부착.
 		
-		mainCRightPanel.add(loginBtn);
+		this.add(mainPanel);//"메인 패널"을 JFrame에 부착.
+		this.setBounds(100, 100, 700, 500);//JFrame 위치( x:100, y:100 ), 크기( 가로:700, 새로:500 ) 지정.
+		this.setVisible(true);//JFrame가 화면에 보이게하는 코드.
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);//"x"버튼 클릭시 실행 종료.
 		
-		//JFrame
-		this.setTitle("로그인");
-		this.setLayout(new BorderLayout());
-		this.add(mainCenterPanel,"Center");
-		this.add(mainSouthPanel,"South");
-		this.setBounds(200, 200, 300, 200);
-		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		//리스너 등록.
 		loginBtn.addActionListener(this);
 		findPassBtn.addActionListener(this);
 		joinBtn.addActionListener(this);
-		
-		
 	}
+
 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		//"로그인"창에서 "로그인"버튼 클릭
-		if(e.getSource() == loginBtn) {
+		if(e.getSource() == loginBtn) { //"로그인 버튼" 클릭시 발생할 action을 지정.
 			System.out.println("로그인 진행");
-			//로그인 기능 구현 코드.
-//			String inputId2 = null;
-//			String inputPass2 = null;
-			EmployeeDTO employee = null;
-			boolean flag = true;
+			EmployeeDTO employee = null;//사원 1명의 정보를 DB에서 받아와 저장할 변수.
+			boolean flag = true;//반복문 제어를 위해 선언된 boolean 타입 변수.
 			try {
-				while(flag) { //로그인 실패시 제업력 코드.
-					Scanner in = new Scanner(System.in);
-					inputId2 = inputId.getText();
-					inputPass2 = inputPass.getText();
-					//입력받은 "사원번호"로 검색후 관련 정보 가져오기.
-					employee = empdao.selectOne(inputId2);
-					nowUserName = employee.getName();
-					nowUserDept = employee.getDeptName();
-//					System.out.println("현재 사용자 *** : " + nowUserName);
-					System.out.println("현재 사용자 *** : " + getNowUserName());
-					if(employee != null) {
-						if(inputPass2.equals(employee.getPassword())) {
-							System.out.println("로그인 성공");
-							if(inputId2.equals("admin")) {
-								System.out.println("*****");
-								System.out.println("관리자 입니다.");
-								System.out.println("현재 관리자이름은 : " + employee.getName() + "입니다.");
-//								new ProductFrame_02();
-								ProductFrame_02 pf = new ProductFrame_02();
-								pf.setEmpName(nowUserName);
-								pf.setNowDeptName(nowUserDept);
-								pf.ProductFrame_02();
-							}else {
-								System.out.println("====== " + employee.getDeptName() + "부 " + employee.getName() + " 사원입니다." + " ======");
-								new SelectProduct_employee();
-							}
-//							new ProductFrame_02();
-							this.dispose();
-							break;
-						}else {
-							System.out.println("로그인 실패");
-							if(!inputPass2.equals(employee.getPassword())) {
-								System.out.println("비번 오류");
-							}
-							flag = false;
+				while(flag) {
+//					Scanner in = new Scanner(System.in);
+					inputId = idInput.getText();//"아이디" 입력창에 입력된 문자열을 받아와 저장.
+					inputPass = passInput.getText();//"비밀번호" 입력창에 입력된 문자열을 받아와 저장.
+					employee = empdao.selectOne(inputId);//입력받은 String 타입의 "아이디"값으로, 그 아이디를 가진 사원의 모든 정보를 가져온다.
+					nowUserName = employee.getName();//가져온 정보 중 "사원이름"을 따로 저장한다.
+					nowUserDept = employee.getDeptName();//가져온 정보 중 "부서명"을 따로 저장한다.
+					if(employee != null && inputPass.equals(employee.getPassword())) {//입력창이 비여있지 않는 상황.
+						System.out.println("로그인 성공");
+						if(inputId.equals("admin")) { //"관리자" 로그인 성공.
+							System.out.println("관리자 입니다.");
+							System.out.println("관리자 이름 : " + employee.getName());
+							ManagerFrame pf = new ManagerFrame();
+							pf.setEmpName(nowUserName);
+							pf.setNowDeptName(nowUserDept);
+							pf.ProductFrame_02();
+							pf = null; //메모리 자원 회수.
+						}else {//"일반사원" 로그인 성공.
+							EmployeeFrame s = new EmployeeFrame();
 						}
-					}else if(employee == null) {
-						System.out.println("존재하지 않은 아이디입니다.");
+						this.dispose();
 						break;
+					}else {
+						System.out.println("로그인 실패");
+						if(!inputPass.equals(employee.getPassword())){
+							System.out.println("비밀번호 오류");
+						}
+						flag = false;
 					}
-					
 				}
 			} catch (Exception e2) {
 				// TODO: handle exception
-				System.out.println("입력창이 비여 있습니다.");
-//				e2.printStackTrace();
 			}
 		}
 		
-		
-		//"비밀번호찾기" 클릭.
-		if(e.getSource() == findPassBtn) {
-			System.out.println("로그인 창 닫임.");
-			this.dispose();
-			new FindPassFrame();
+		//"비밀번호 찾기"
+		if(e.getSource() == findPassBtn) { //"비밀번호 찾기" 클릭시 발생할 action을 지정.
+			System.out.println("비번 찾기");
+			this.dispose();//현재 창을 닫는다.
+			new FindPassFrame();//"비밀번호 찾기" 창을 연다.
 		}
 		
-		
-		//"회원가입" 클릭.
-		if(e.getSource() == joinBtn) {
-			System.out.println("회원가입 창으로 이동.");
-			this.dispose();
-			new JoinFrame();
+		//"신규등록"
+		if(e.getSource() == joinBtn) { //"신규등록" 클릭시 발생할 action을 지정.
+			System.out.println("신규등록");
+			this.dispose();//현재 창을 닫는다.
+			new JoinFrame();//"신규등록" 창을 연다.
 		}
+		
 	}
-	
-	
-
-	
-	
-	
-	
-	
-	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

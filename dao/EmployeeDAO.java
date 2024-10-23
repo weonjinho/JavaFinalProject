@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import MakeData.makeEmpno;
 import dto.EmployeeDTO;
+import makeData.MakeEmpno;
 
 public class EmployeeDAO {
 	private Connection conn = null;
@@ -44,7 +44,7 @@ public class EmployeeDAO {
 	public void insert(EmployeeDTO empdto) {
 		if(conn()) {
 			try {
-				makeEmpno m = new makeEmpno();
+				MakeEmpno m = new MakeEmpno();
 				String empno = m.getEmpno();
 				String sql = "insert into empinfo values (?, ?, ?, ?, sysdate, ?, ?, ?)";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
