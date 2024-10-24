@@ -3,17 +3,18 @@ package dto;
 public class ProductDTO {
 	private String pnum = null;
 	private String category = null;
+	private String pname = null;
+	private int price = 0;
+	private int stock = 0;
+	private String maker = null;
+	private String indate = null;
+	
 	public String getCategory() {
 		return category;
 	}
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	private String pname = null;
-	private int price = 0;
-	private int stock = 0;
-	private String maker = null;
-	private String indate = null;
 	
 	public String getPnum() {
 		return pnum;

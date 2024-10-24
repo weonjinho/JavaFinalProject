@@ -86,6 +86,7 @@ public class FindPassFrame extends JFrame implements ActionListener{
 		
 		//리스너 등록.
 		checkBtn.addActionListener(this);//"인증" 버튼 리스너 추가.
+		
 		cancelBtn.addActionListener(this);//"취소" 버튼 리스너 추가.
 		changeBtn.addActionListener(this);//"변경" 버튼 리스너 추가.
 	}
@@ -94,17 +95,23 @@ public class FindPassFrame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String empno1 = inputChkId.getText();//인증할 "아이디"를 입력받아 변수에 저장한다.
+		
 		if(e.getSource() == checkBtn) { //"인증"버튼 클릭시 발생하는 action.
+			
 			//selectAll()로 모든 튜플을 가져온다.
-			ArrayList<EmployeeDTO> elist2 = empdao.selectAll();
+			
 			//입력받는 사원번호랑 같은 사원번호값을 가지고 있는 튜플이 있는지 판단한다.
+			//반복될때 마다 1개의 튜플속 사원번호값을 가져와 변수에 저장한다.
+			
+			ArrayList<EmployeeDTO> elist2 = empdao.selectAll();
 			for(EmployeeDTO ee : elist2) {
-				String empno = ee.getEmpno();//반복될때 마다 1개의 튜플속 사원번호값을 가져와 변수에 저장한다.
+				String empno = ee.getEmpno();
 				if(empno1.equals(empno)) { // 일치시
 					checkResult.setText("인증 되었습니다.");
 					checkResult.setForeground(Color.green);
 					break;
-				}else if(!empno1.equals(empno)){ // 불일치시
+				}
+				else if(!empno1.equals(empno)){ // 불일치시
 					checkResult.setText("인증 실패하였습니다.");
 					checkResult.setForeground(Color.red);
 				}
@@ -118,16 +125,24 @@ public class FindPassFrame extends JFrame implements ActionListener{
 		}
 		
 		if(e.getSource() == changeBtn) { //"변경" 버튼 클릭시 발생하는 action.
+			
 			//새 비밀번호 입력.
 			String inputPassword = inputNewPass.getText();
+			
 			//새 비밀번호 확인.
 			String inputPassword2 = inputChkPass.getText();
+			
 			if(inputPassword.equals(inputPassword2)) {
-				System.out.println("비밀번호 일치");
+				
+				
 				//여기서 DB에 있는 값을 update합니다.
 				//EmployeeDAO.update(empno, inputPassword)
+				
+				System.out.println("비밀번호 일치");
+				
 				empdao.update(empno1, inputPassword);
 				System.out.println("비밀번호 update 완료.");
+				
 			}else {
 				System.out.println("비밀번호 불일치");
 			}

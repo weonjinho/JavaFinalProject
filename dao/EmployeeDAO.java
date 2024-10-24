@@ -26,6 +26,7 @@ public class EmployeeDAO {
 			e.printStackTrace();
 		}
 	}
+	
 	private boolean conn() {
 		try {
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "system", "11111111");
@@ -41,7 +42,9 @@ public class EmployeeDAO {
 	
 	
 	//사원정보 추가 메소드.
+	
 	public void insert(EmployeeDTO empdto) {
+		
 		if(conn()) {
 			try {
 				MakeEmpno m = new MakeEmpno();
@@ -82,7 +85,9 @@ public class EmployeeDAO {
 	
 	
 	//사원정보 전체 조회 메소드
+	
 	public ArrayList<EmployeeDTO> selectAll() {
+		
 		ArrayList<EmployeeDTO> elist = new ArrayList<>();
 		if(conn()) {
 			try {
@@ -123,9 +128,10 @@ public class EmployeeDAO {
 	
 	
 	public EmployeeDTO selectOne(String employee) {
+		
 		if(conn()) {
 			try {
-				String sql = "select * from empinfo where empno = ?";
+				String sql = "select * from empinfo where empno = ?";//조건 : 사원번호
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, employee);
 				ResultSet rs = pstmt.executeQuery();

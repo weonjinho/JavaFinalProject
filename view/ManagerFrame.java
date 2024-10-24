@@ -387,11 +387,10 @@ public class ManagerFrame extends JFrame implements ActionListener, MouseListene
 		outBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				model2.setRowCount(0);
-				
-				// TODO Auto-generated method stub
 				System.out.println("출고");
+				//기존화면 비우기.
+				model2.setRowCount(0);
+				//선택한 제품의 모든 정보를 기져오기.
 				ProductDTO pdto = pdao.selectOne(strValue());
 				String pnum = pdto.getPnum();
 				pdto = null;
@@ -433,33 +432,6 @@ public class ManagerFrame extends JFrame implements ActionListener, MouseListene
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String selected = combobox2.getSelectedItem().toString();
-		// 제품번호로 검색 기능.
-//		if(e.getSource() == searchBtn) {
-//			String input = searchInput.getText();
-//			System.out.println("입력한 내용 : " + input + " / " + selected);
-//			ProductDTO plist = pdao.selectOne(input);
-//			String pnum = plist.getPnum();
-//			String pcategory = plist.getCategory();
-//			String pname = plist.getPname();
-//			int price = plist.getPrice();
-//			int stock = plist.getStock();
-//			String maker = plist.getMaker();
-//			String indate = plist.getIndate();
-//			System.out.println(pnum + " " + pcategory + " " +  pname + " " +  price + " " +  stock + " " +  maker + " " +  indate);
-//		}
-		//"출고"버튼 엑션
-//		if(e.getSource() == outBtn) {
-//			//"출고"버튼 클릭 후 DB에서도 제고 수량을 update 해야한다.
-//			System.out.println("출고");
-//			ProductDTO pdto = pdao.selectOne(strValue());
-//			String pnum = pdto.getPnum();
-//			pdto = null;
-//			pdao.update2(pnum);
-//			ProductDTO a = pdao.selectOne(strValue());
-//			int kstock = a.getStock();
-//			System.out.println("남은 제고 : " + kstock);
-//		}
-		
 		//"취소"버튼
 		if(e.getSource() == cancelBtn) {
 			combobox1.setSelectedIndex(0);

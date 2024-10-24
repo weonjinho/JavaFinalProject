@@ -4,12 +4,14 @@ import view.ManagerFrame;
 
 public class MakeProductNum {
 	//제품번호 : 대분류 + 5자리 숫자.
-	//대분류 :
+	
+	//대분류 코드:
 	//1.생활가전 : 001
 	//2.주방가전 : 002
 	//3.계절가전 : 003
 	//4.통신용품 : 004
 	//5.PC용품 : 005
+	
 	private String productNum = null;
 	private CreateRamdomNumber a = new CreateRamdomNumber();
 	public MakeProductNum(){
@@ -34,6 +36,7 @@ public class MakeProductNum {
 		System.out.println("생성한 재품번호 : " + productNum);
 	}
 	
+	//제품번호 메소드.
 	public String getProductNum() {
 		return productNum;
 	}

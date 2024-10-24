@@ -24,7 +24,7 @@ import dao.ProductDAO;
 import dto.ProductDTO;
 
 public class EmployeeFrame extends JFrame implements ActionListener{
-	ProductDAO pdao = new ProductDAO();
+	private ProductDAO pdao = new ProductDAO();
 	//JPanel
 	private JPanel mainNorthPanel = new JPanel();
 	private JPanel mainCenterPanel = new JPanel();
@@ -38,7 +38,6 @@ public class EmployeeFrame extends JFrame implements ActionListener{
 	private JPanel containerNPanel = new JPanel();
 	private JPanel containerCPanel = new JPanel();
 	private JPanel mainTabPanel = new JPanel();
-	
 	
 	private String nowUserName2 = null;
 	public String getNowUserName2() {
@@ -67,9 +66,6 @@ public class EmployeeFrame extends JFrame implements ActionListener{
 	private DefaultMutableTreeNode productMge = new DefaultMutableTreeNode("제고관리");
 	private DefaultMutableTreeNode addProduct = new DefaultMutableTreeNode("제고등록");
 	private DefaultMutableTreeNode productInfotree  = new DefaultMutableTreeNode("제고조회/변경");
-	
-	
-	
 	
 	private JLabel categoryLabel = new JLabel("카테고리");
 	//카테고리, 제품명, 제품번호 
@@ -145,7 +141,6 @@ public class EmployeeFrame extends JFrame implements ActionListener{
 		
 		//container1
 		container1.setLayout(new BorderLayout());
-//		container1.add(mainTabPanel);
 		container1.add(containerNPanel,"North");
 		container1.add(containerCPanel,"Center");
 		
@@ -154,12 +149,9 @@ public class EmployeeFrame extends JFrame implements ActionListener{
 		containerNPanel.add(categoryList);
 		containerNPanel.add(pNumSearchLabel);
 		containerNPanel.add(pNumSearchInput);
-//		containerNPanel.add(pNameSearchLabel);
-//		containerNPanel.add(pNameSearchInput);
 		containerNPanel.add(searchBtn);
 		containerNPanel.add(backBtn);
 		backBtn.setVisible(false);
-		
 		
 		//mainCenterCPanel
 		mainCenterCPanel.setLayout(new BorderLayout()); //tab창이 축소되는 원인.
@@ -201,6 +193,7 @@ public class EmployeeFrame extends JFrame implements ActionListener{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		//리스터 등록
+		//검색 버튼 actionListener
 		searchBtn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -229,7 +222,7 @@ public class EmployeeFrame extends JFrame implements ActionListener{
 					}
 				});
 			}
-		});//검색 버튼 actionListener
+		});
 		
 		
 		

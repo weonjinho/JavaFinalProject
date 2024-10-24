@@ -4,14 +4,21 @@ import view.JoinFrame;
 
 public class MakeEmpno {
 	//사원번호 : 부서번호 + 입사년월( 2410 ) + 5자리숫자.
-	//부서번호 : (조건문)
+	
+	//부서코드
 	//1.생활가전 : 001
 	//2.주방가전 : 002
 	//3.계절가전 : 003
 	//4.통신용품 : 004
 	//5.PC용품 : 005
+	
 	//입사날짜 : 현재날짜의 년,월 정보 추출. (메소드 --> 리턴)
 	//5자리숫자 : 5자리 중복없는 랜던숫자 생성. (메소드 ---> 리턴)
+	
+	//입사날짜 : GetNowDate() 호출
+	
+	
+	//5자리숫자 : Create_Ramdom_Number() 호출
 	
 	private String empno = null;
 	private CreateRamdomNumber a = new CreateRamdomNumber();
@@ -51,6 +58,8 @@ public class MakeEmpno {
 		System.out.println();
 		
 	}
+	
+	//사원번호 메소드.
 	public String getEmpno() {
 		return empno;
 	}

@@ -1,11 +1,11 @@
 package dto;
 
 public class EmployeeDTO {
-	private String empno = null;// 사원번호 받아와야함.
+	private String empno = null;
 	private String password = null;
 	private String name = null;
 	private String deptName = null;
-	private String joinDate = null;// sysdate
+	private String joinDate = null;
 	private String gender = null;
 	private String email = null;
 	private String tel = null;

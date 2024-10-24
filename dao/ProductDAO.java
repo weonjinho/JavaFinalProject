@@ -75,12 +75,13 @@ public class ProductDAO {
 	
 	
 //	public ProductDTO selectOne(ProductDTO pdto) {
+	
 	public ProductDTO selectOne(String pdto) {
 //		System.out.println("제품명 : " + pdto.getPname());
 		if(conn()) {
 			//제품번호만 입력시
 			try {
-				String sql = "select * from productmge where pnum = ?";
+				String sql = "select * from productmge where pnum = ? order by indate desc";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 //				pstmt.setString(1, pdto.getPnum());
 				pstmt.setString(1, pdto);
@@ -114,7 +115,7 @@ public class ProductDAO {
 		if(conn()) {
 			//제품번호만 입력시
 			try {
-				String sql = "select * from productmge where pnum = ?";
+				String sql = "select * from productmge where pnum = ? order by indate desc";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, pdto.getPnum());
 				ResultSet rs = pstmt.executeQuery();
@@ -144,7 +145,7 @@ public class ProductDAO {
 		ArrayList<ProductDTO> plist = new ArrayList<>();
 		if(conn()) {
 			try {
-				String sql = "select * from productmge";
+				String sql = "select * from productmge order by indate desc";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery();
 				while(rs.next()) {
