@@ -56,48 +56,50 @@ public class JoinFrame extends JFrame implements ActionListener{
 	
 	public JoinFrame(){
 		//mainCenterPanel
-		mainCenterPanel.setLayout(new GridLayout(7,0)); //mainCenterPanel의 레이아웃 지정. ( 가로:1, 세로:7 )
+		mainCenterPanel.setLayout(new GridLayout(7,0,3,3)); //mainCenterPanel의 레이아웃 지정. ( 가로:1, 세로:7 )
 		
-		mainCenterFirstPanel.setLayout(new GridLayout());
+//		mainCenterFirstPanel.setLayout(new GridLayout());
+		inputName.setSize(130, 30);
 		mainCenterFirstPanel.add(nameLabel);
 		mainCenterFirstPanel.add(inputName);
-		mainCenterFirstPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+//		mainCenterFirstPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
 		mainCenterPanel.add(mainCenterFirstPanel);
 		
-		mainCenterSecondPanel.setLayout(new GridLayout());
+//		mainCenterSecondPanel.setLayout(new GridLayout());
+		inputPass.setSize(130, 30);
 		mainCenterSecondPanel.add(passLabel);
 		mainCenterSecondPanel.add(inputPass);
-		mainCenterSecondPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+//		mainCenterSecondPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 		mainCenterPanel.add(mainCenterSecondPanel);
 		
 		mainCenterThirdPanel.setLayout(new GridLayout());
 		mainCenterThirdPanel.add(passChkLabel);
 		mainCenterThirdPanel.add(inputPassChk);
-		mainCenterThirdPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+//		mainCenterThirdPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 		mainCenterPanel.add(mainCenterThirdPanel);
 		
 		mainCenterFourthPanel.setLayout(new GridLayout());
 		mainCenterFourthPanel.add(deptNameLabel);
 		mainCenterFourthPanel.add(inputDeptName);
-		mainCenterFourthPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+//		mainCenterFourthPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 		mainCenterPanel.add(mainCenterFourthPanel);
 		
 		mainCenterFifthPanel.setLayout(new GridLayout());
 		mainCenterFifthPanel.add(genderLabel);
 		mainCenterFifthPanel.add(inputGender);
-		mainCenterFifthPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+//		mainCenterFifthPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 		mainCenterPanel.add(mainCenterFifthPanel);
 		
 		mainCenterSixPanel.setLayout(new GridLayout());
 		mainCenterSixPanel.add(emailLabel);
 		mainCenterSixPanel.add(inputEmail);
-		mainCenterSixPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+//		mainCenterSixPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 		mainCenterPanel.add(mainCenterSixPanel);
 		
 		mainCenterSevenPanel.setLayout(new GridLayout());
 		mainCenterSevenPanel.add(telLabel);
 		mainCenterSevenPanel.add(inputTel);
-		mainCenterSevenPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+//		mainCenterSevenPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 		mainCenterPanel.add(mainCenterSevenPanel);
 		
 		//mainSouthPanel

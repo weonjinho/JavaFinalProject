@@ -42,7 +42,6 @@ public class EmployeeDAO {
 	
 	
 	//사원정보 추가 메소드.
-	
 	public void insert(EmployeeDTO empdto) {
 		
 		if(conn()) {
