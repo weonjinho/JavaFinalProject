@@ -1,5 +1,6 @@
 package makeData;
 
+import view.JoinFrame_02;
 import view.JoinFrame;
 
 public class MakeEmpno {
@@ -51,7 +52,7 @@ public class MakeEmpno {
 		System.out.println("부서코드 : " + deptNum);
 		System.out.println("입사날짜 : " + joinDate);
 		System.out.println("생성한 사원번호 : " + empno);
-		
+		input.dispose();
 		System.out.println();
 		System.out.println("*******************");
 		System.out.println("--- makeEmpno 끝 ---");
